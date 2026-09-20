@@ -1,0 +1,10 @@
+{
+  "name": "willgob-api",
+  "private": true,
+  "workspaces": ["apps/*"],
+  "trustedDependencies": ["workerd", "esbuild"],
+  "scripts": {
+    "dev": "bun run --filter web build && bun run --filter api dev",
+    "deploy": "bun run --filter web build && bun run --filter api deploy"
+  }
+}
