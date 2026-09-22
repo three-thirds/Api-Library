@@ -1,12 +1,8 @@
 import { Hono } from 'hono';
+import ping from './routes/ping';
 
-const app = new Hono();
+const api = new Hono();
 
-app.get('/ping', (c) => {
-    return c.json({
-        ok: true,
-        message: 'pong'
-    })
-})
+api.route('/ping', ping);
 
-export default app
+export default api;
