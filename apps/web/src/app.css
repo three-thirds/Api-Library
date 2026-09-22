@@ -126,4 +126,7 @@
 	html {
 		@apply font-sans;
 	}
+	html, body {
+		height: 100%;
+	}
 }

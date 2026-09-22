@@ -3,6 +3,7 @@
 	import '../app.css';
 
 	import Header from '$lib/components/header.svelte';
+	import Footer from '$lib/components/footer.svelte';
 
 	let { children } = $props();
 </script>
@@ -11,7 +12,10 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<div>
+<div class="flex min-h-screen flex-col p-4">
 	<Header />
-	{@render children()}
+	<main class="flex-1">
+		{@render children()}
+	</main>
+	<Footer />
 </div>
