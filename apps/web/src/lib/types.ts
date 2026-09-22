@@ -7,7 +7,8 @@ export type ApiParams = {
 }
 
 export type ApiResponse = {
-    code: number;
+    code: string;
+    status: number;
     message: string;
 }
 
@@ -20,4 +21,5 @@ export type ApiEntry = {
     params: ApiParams[];
     response: unknown;
     errors: ApiResponse[];
+    category: string;
 }
