@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { page } from "$app/stores";
+    import { page } from "$app/state";
     import { Button } from "$lib/components/ui/button/index.js";
 
     const links = [
@@ -8,11 +8,10 @@
         {label: "Contribution", href: "/contribution"}
     ]
 
-    let active = $state(home)
 </script>
 
 <header class="flex items-center gap-2 border-b bg-background/50 p-2">
     {#each links as link}
-        <Button variant="link">{link}</Button>
+        <Button variant={page.url.pathname === link.href ? "secondary" : "ghost"} href={link.href}>{link.label}</Button>
     {/each}
 </header>
