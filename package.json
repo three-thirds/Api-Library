@@ -1,10 +1,18 @@
 {
-  "name": "willgob-api",
-  "private": true,
-  "workspaces": ["apps/*"],
-  "trustedDependencies": ["workerd", "esbuild"],
-  "scripts": {
-    "dev": "bun run --filter web build && bun run --filter api dev",
-    "deploy": "bun run --filter web build && bun run --filter api deploy"
-  }
+	"name": "threethirds",
+	"private": true,
+	"workspaces": [
+		"apps/*"
+	],
+	"scripts": {
+		"dev": "bun run --filter web dev",
+		"dev:api": "bun run --filter api dev",
+		"check": "bun run --filter web check",
+		"build": "bun run --filter web build",
+		"deploy": "bun run --filter web build && bun run --filter web deploy"
+	},
+	"devDependencies": {
+		"web": "workspace:*",
+		"wrangler": "^4.136.1"
+	}
 }

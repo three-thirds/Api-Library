@@ -1,10 +1,8 @@
 import { Hono } from 'hono';
+import ping from './routes/ping';
 
-const app = new Hono<{ Bindings: { ASSETS: Fetcher } }>();
+const api = new Hono();
 
-app.get('/ping', (c) => c.json({ ok: true, data: 'pong' }));
+api.route('/ping', ping);
 
-// anything not matched above falls through to the Svelte build
-app.all('*', (c) => c.env.ASSETS.fetch(c.req.raw));
-
-export default app;
+export default api;
