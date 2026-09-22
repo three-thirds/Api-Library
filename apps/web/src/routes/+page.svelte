@@ -1,3 +1,5 @@
-<h1 class="text-4xl font-bold text-blue-500">
-	ThreeThirds
-</h1>
+<script lang="ts">
+    import { Button } from "$lib/components/ui/button/index.js";
+</script>
+
+<Button variant="outline">Button</Button>
