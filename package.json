@@ -12,6 +12,7 @@
 		"deploy": "bun run --filter web build && bun run --filter web deploy"
 	},
 	"devDependencies": {
+		"@sveltejs/adapter-cloudflare": "^7.2.9",
 		"web": "workspace:*",
 		"wrangler": "^4.136.1"
 	}
