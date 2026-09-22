@@ -8,7 +8,6 @@
 <Sidebar.Provider>
  <AppSidebar />
  <main>
-  <Sidebar.Trigger />
   {@render children?.()}
  </main>
 </Sidebar.Provider>
