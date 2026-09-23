@@ -20,7 +20,7 @@
   );
  </script>
  
-<Sidebar.Root collapsible="none" class="h-screen">
+<Sidebar.Root collapsible="none" class="h-screen bg-background/90 border-r border-dotted">
  <Sidebar.Header>
  <Sidebar.Input bind:value={search} placeholder="Search APIs..." />
  </Sidebar.Header>
@@ -34,7 +34,7 @@
                 {#each apis as api (api.id)}
                     <Sidebar.MenuItem>
                         <Sidebar.MenuButton>
-                            <a href={`/docs/${api.id}`} class="w-full text-left">
+                            <a href={`/docs/#${api.id}`} class="w-full text-left">
                                 {api.name}
                             </a>
                         </Sidebar.MenuButton>
