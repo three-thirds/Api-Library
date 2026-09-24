@@ -3,7 +3,7 @@
     "id": "weather",
     "name": "Weather",
     "category": "Data",
-    "route": "/weather",
+    "route": "/api/v1/weather",
     "method": "GET",
     "description": "Current conditions for a city",
     "auth": false,

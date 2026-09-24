@@ -22,4 +22,5 @@ export type ApiEntry = {
     response: unknown;
     errors: ApiResponse[];
     category: string;
+    route: string;
 }

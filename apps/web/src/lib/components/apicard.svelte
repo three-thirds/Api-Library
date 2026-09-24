@@ -24,11 +24,20 @@
                     <p class="text-sm">Example: {param.example}</p>
                     <hr>
                 {/each}
+
+                {#each api.errors as errors (errors.code)}
+                <div class="flex items-center gap-2">
+                    <p class="text-lg">{errors.status}</p>
+                    <p class="text-sm">{errors.code}</p>
+                    <!-- <p class="text-sm">{errors.message}</p> -->
+                    <hr>
+                </div>
+                {/each}
                 
             </div>
-            <div class="flex flex-row gap-2 items-center">
+            <!-- <div class="flex flex-row gap-2 items-center">
                 hi
-            </div>
+            </div> -->
         </div>
     {/each}
 
