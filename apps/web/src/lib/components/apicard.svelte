@@ -2,6 +2,11 @@
     import apis from "$lib/apis.json";
 </script>
 
-{#each apis as api (api.id)}
-    {api.name}
-{/each}
+<div class="flex flex-col gap-4">
+    {#each apis as api (api.id)}
+        <div class="flex flex-col gap-2 rounded-lg border bg-background p-4">
+            
+        </div>
+    {/each}
+
+</div>

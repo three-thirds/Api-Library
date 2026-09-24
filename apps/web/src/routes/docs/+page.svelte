@@ -7,10 +7,9 @@
 </script>
  
 <Sidebar.Provider>
- <AppSidebar />
- <main>
-  {@render children?.()}
- </main>
+    <AppSidebar />
+    <main class="flex-1 overflow-y-auto p-6">
+        <ApiCard />
+        {@render children?.()}
+    </main>
 </Sidebar.Provider>
-
-<ApiCard></ApiCard>
