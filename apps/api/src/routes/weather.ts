@@ -1,8 +1,8 @@
 import { Hono } from 'hono';
 
 const app = new Hono();
-const cache = new Map<string, { data: any; expiresAt: number }>();
-const CACHE_TTL_MS = 60 * 1000;
+// const cache = new Map<string, { data: any; expiresAt: number }>();
+// const CACHE_TTL_MS = 60 * 1000;
 
 app.get("/", async (c) => {
     try {
