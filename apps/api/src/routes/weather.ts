@@ -12,7 +12,7 @@ app.get("/", async (c) => {
         return c.json({ error: "Missing latitude or longitude query parameters" }, 400);
     }
     try {
-        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}longitude=${lon}&hourly=temperature_2m`);
+        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
 
         if (!response.ok) {
             return c.json({ error: "Failed to fetch weather data" }, 502);
