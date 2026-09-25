@@ -6,6 +6,7 @@ const HACKATIME_BASE = "https://hackatime.hackclub.com";
 
 const cache = new Map<string, { data: any; expiresAt: number }>();
 const CACHE_TTL_5M = 5 * 60 * 1000;
+const CACHE_TTL_1M = 60 * 1000;
 
 //A small helper to convert seconds to hour
 function secondsToHours(secs: number) {
@@ -83,6 +84,38 @@ app.get("/user/:username", async (c) => {
   } catch (err) {
     return c.json({ error: 'Failed to fetch user stats', details: String(err) }, 500);
   }
+});
+
+
+app.get('/currently_hacking', async (c) => {
+  const cacheKey = 'currently_hacking';
+
+  const cached = cache.get(cacheKey);
+  if (cached && Date.now() < cached.expiresAt) {
+    return c.json({ ...cached.data, cached: true });
+  }
+
+  try {
+    const res = await fetch(`${HACKATIME_BASE}/api/v1/currently_hacking`, {
+      signal: AbortSignal.timeout(5000),
+    });
+
+    if (!res.ok) {
+      return c.json({ error: 'Failed to fetch currently hacking users' }, res.status as any);
+    }
+
+    const data = await res.json();
+
+    cache.set(cacheKey, {
+      data,
+      expiresAt: Date.now() + CACHE_TTL_1M
+    });
+
+    return c.json({ ...data, cached: false });
+  } catch (err) {
+    return c.json({ error: 'Failed to query live hackers', derails: String(err) }, 500);
+  }
+
 });
 
 export default app;
