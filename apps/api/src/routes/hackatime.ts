@@ -118,4 +118,52 @@ app.get('/currently_hacking', async (c) => {
 
 });
 
+
+app.get("/leaderboard", async (c) => {
+  const cacheKey = "weekly_leaderboard";
+
+  const cached = cache.get(cacheKey);
+  if (cached && Date.now() < cached.expiresAt) {
+    return c.json({ ...cached.data, cached: true });
+  }
+
+  try {
+    const res = await fetch(`${HACKATIME_BASE}/api/v1/leaderboard/weekly`, {
+      signal: AbortSignal.timeout(5000)
+    });
+
+    if (res.status === 503) {
+      return c.json({ error: "Leaderboard is currently being generated, please check again later!" }, 503);
+    }
+
+    if (!res.ok) {
+      return c.json({ error: 'Failed to get leaderboard of hackers' }, res.status as any);
+    }
+
+    const data = await res.json();
+
+    const normalized = {
+      period: data.period,
+      generated_at: data.generated_at,
+      top_coders: (data.entries ?? []).slice(0, 10).map((entry: any) => ({
+        rank: entry.rank,
+        name: entry.user?.username,
+        avatar_url: entry.user?.avatar_url,
+        hours: secondsToHours(entry.total_seconds ?? 0)
+      }))
+    };
+
+    cache.set(cacheKey, {
+      data: normalized,
+      expiresAt: Date.now() + CACHE_TTL_5M,
+    });
+
+    return c.json({ ...normalized, cached: false });
+
+  } catch (err) {
+    return c.json({ error: 'Failed to query hackatime for leaderboard', details: String(err) }, 500);
+  }
+
+});
+
 export default app;
