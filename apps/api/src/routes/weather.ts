@@ -19,8 +19,8 @@ app.get("/", async (c) => {
         const response = await fetch(`${OPEN_METEO_URL}?${upstream.toString()}`);
 
         if (!response.ok) {
-            const errormeessage = await response.json().catch(() => null);
-            return c.json({ error: "Failed to fetch weather data", errormeessage }, 502);
+            const message = await response.json().catch(() => null);
+            return c.json({ error: "Failed to fetch weather data", message }, 502);
         }
 
             const data = await response.json();
