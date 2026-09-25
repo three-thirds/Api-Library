@@ -2,7 +2,6 @@
     import { Button } from "$lib/components/ui/button/index.js";
 </script>
 
-<Button variant="outline">Button</Button>
 hi
 hi
 <br>hi
