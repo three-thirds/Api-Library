@@ -52,6 +52,26 @@
                 </div>
             {/if}
 
+            {#if api.errors.length > 0}
+                <div class="mt-5">
+                    <h3 class="mb-2 text-xs font-medium uppercase text-muted-foreground tracking-wide">
+                        Responses 
+                    </h3>
+
+                    <div class="divide-y divide-border rounded-lg border border-border">
+                        {#each api.errors as res(res.code)}
+                            <div class="flex items-center gap-3 p-3">
+                                <span class="rounded-md bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive">
+                                    {res.status}
+                                </span>
+                                <code class="text-sm">{res.code}</code>
+                                <span class="text-sm text-muted-foreground">{res.message}</span>
+                            </div>
+                        {/each}
+                    </div>
+                </div>
+            {/if}
+
         </article>
     {/each}
 
