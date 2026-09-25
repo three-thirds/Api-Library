@@ -6,7 +6,7 @@
     "route": "/api/v1/weather",
     "method": "GET",
     "description": "Current conditions for a city",
-    "auth": false,
+    "auth": true,
     "params": [
       { "name": "city", "type": "string", "required": true, "example": "Sydney", "description": "City name" }
     ],
