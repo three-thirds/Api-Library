@@ -1,0 +1,18 @@
+[
+  {
+    "id": "weather",
+    "name": "Weather",
+    "category": "Data",
+    "route": "/api/v1/weather",
+    "method": "GET",
+    "description": "Current conditions for a city",
+    "auth": false,
+    "params": [
+      { "name": "city", "type": "string", "required": true, "example": "Sydney", "description": "City name" }
+    ],
+    "response": { "ok": true, "data": { "city": "Sydney", "tempC": 21.4 } },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "city is required" }
+    ]
+  }
+]
