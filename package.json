@@ -15,5 +15,8 @@
 		"@sveltejs/adapter-cloudflare": "^7.2.9",
 		"web": "workspace:*",
 		"wrangler": "^4.136.1"
+	},
+	"dependencies": {
+		"marked": "^18.0.14"
 	}
 }
