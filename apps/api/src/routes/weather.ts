@@ -5,8 +5,14 @@ const app = new Hono();
 // const CACHE_TTL_MS = 60 * 1000;
 
 app.get("/", async (c) => {
+    const lat = c.req.queries("latitude");
+    const lon = c.req.queries("longitude");
+
+    if (!lat || !lon) {
+        return c.json({ error: "Missing latitude or longitude query parameters" }, 400);
+    }
     try {
-        const response = await fetch("https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m");
+        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}longitude=${lon}&hourly=temperature_2m`);
 
         if (!response.ok) {
             return c.json({ error: "Failed to fetch weather data" }, 502);
