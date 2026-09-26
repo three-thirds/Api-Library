@@ -10,6 +10,9 @@ import stock from './routes/stock';
 import indices from './routes/indices';
 import fx from './routes/fx';
 import crypto from './routes/crypto';
+import minecraft from './routes/minecraft';
+import status from './routes/status';
+import hackatime from './routes/hackatime';
 
 const api = new Hono();
 
@@ -24,5 +27,8 @@ api.route('/stock', stock);
 api.route('/index', indices);
 api.route('/fx', fx);
 api.route('/crypto', crypto);
+api.route('/minecraft', minecraft);
+api.route('/status', status);
+api.route('/hackatime', hackatime);
 
 export default api;
