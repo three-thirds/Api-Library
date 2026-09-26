@@ -9,6 +9,7 @@ import gas from './routes/gas';
 import stock from './routes/stock';
 import indices from './routes/indices';
 import fx from './routes/fx';
+import crypto from './routes/crypto';
 
 const api = new Hono();
 
@@ -22,5 +23,6 @@ api.route('/gas', gas);
 api.route('/stock', stock);
 api.route('/index', indices);
 api.route('/fx', fx);
+api.route('/crypto', crypto);
 
 export default api;
