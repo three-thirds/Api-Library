@@ -40,6 +40,6 @@ async function proxy(c: any, upstreamPath: string) {
 
 app.get('/page/:title/history', (c) => proxy(c, `/page/${encodeTitle(c.req.param('title'))}/history`))
 app.get('/page/:title/history/counts/:type', (c)=> proxy(c, `/page/${encodeTitle(c.req.param('title'))}/history/counts/${c.req.param('type')}`))
-
+app.get('/revision/:from/compare/:to', (c) => proxy(c, `/revision/${encodeTitle(c.req.param('from'))}/compare/${encodeTitle(c.req.param('to'))}`))
 
 export default app;
