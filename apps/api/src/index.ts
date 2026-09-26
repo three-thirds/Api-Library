@@ -5,6 +5,7 @@ import oil from './routes/oil';
 import gold from './routes/gold';
 import platinum from './routes/platinum';
 import copper from './routes/copper';
+import gas from './routes/gas';
 
 const api = new Hono();
 
@@ -14,5 +15,6 @@ api.route('/oil', oil);
 api.route('/gold', gold);
 api.route('/platinum', platinum);
 api.route('/copper', copper);
+api.route('/gas', gas);
 
 export default api;
