@@ -12,8 +12,11 @@
     <meta property="og:description" content={api.description} />
     <meta property="og:url" content={pageUrl} />
     <meta property="og:type" content="website" />
+    <meta property="og:image" content={`https://api.threethirds.dev/og/${api.id}`} />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:width" content="1200" />
 
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={api.name} />
     <meta name="twitter:description" content={api.description} />
 </svelte:head>
