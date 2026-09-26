@@ -22,7 +22,7 @@
         status: null;
         let path = api.route;
         
-        const query = new UrlSearchParams();
+        const query = new URLSearchParams();
         for (const param of api.params ?? []) {
             const val= values[param.name];
             

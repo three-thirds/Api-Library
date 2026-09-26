@@ -1,7 +1,9 @@
-<script lang="ts">;
-    let { data } = $props();
-    const api = data.api
-    const pageUrl = `https://api-library.vercel.app/docs/${api.id}`;
+<script lang="ts">
+    import type { PageProps } from './$types';
+
+    let { data }: PageProps = $props();
+    const api = $derived(data.api);
+    const pageUrl = $derived(`https://api-library.vercel.app/docs/${api.id}`);
 </script>
 
 <svelte:head>
