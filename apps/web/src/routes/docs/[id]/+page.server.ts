@@ -1,11 +1,12 @@
-import { error } from '@sveltejs/kit';
+import { ImageResponse} from '@vercel/og';
 import apis from '$lib/apis.json';
-import type { PageServerLoad } from './$types';
+import type { RequestHandler } from './$types';
 
-export const load: PageServerLoad = async ({ params}) => {
+export const GET: RequestHandler = async({ params}) => {
     const api = apis.find((api) => api.id === params.id);
+
     if (!api) {
-        throw error(404, 'API not found');
+        return new Response('Not Found', { status: 404});
     }
-    return { api };
+
 }
