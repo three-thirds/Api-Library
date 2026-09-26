@@ -1,6 +1,7 @@
 <script lang="ts">
     import apis from "$lib/apis.json";
     import Tryapi from "$lib/components/tryapi.svelte";
+    import { Button } from "$lib/components/ui/button/index.js";
 
     const methods: Record<string, string> = {
         GET: "text-green-500",
@@ -24,7 +25,10 @@
                             </span>
                         {/if}
                     </div>
-                    <p class="mt-1 text-sm text-muted-foreground">{api.description}</p>                    
+                    <p class="mt-1 text-sm text-muted-foreground">{api.description}</p>         
+                    <Button variant="outline" size="sm" class="mt-2" onclick={() => window.location.href = `/docs/${api.id}`}>
+                        View Docs
+                    </Button>           
                 </div>
                 <code class="shrink-0 rounded-md bg-muted px-2 py-1 text-xs font-medium flex items-center gap-1.5">
                     <span class={`font-semibold ${methods[api.method] || 'text-gray-500'}`}>{api.method}</span>
