@@ -3,6 +3,10 @@ import { Hono } from 'hono';
 const app = new Hono();
 
 const WIKIPEDIA_API_URL = "https://en.wikipedia.org/w/rest.php/v1";
+const WIKIPEDIA_HEADERS = {
+    Accept: "application/json",
+    "User-Agent": "Api-Library/1.0 (https://github.com/willgob/Api-Library)",
+};
 
 function encodeTitle(title: string) {
     return encodeURIComponent(title.replace(/ /g, "_"));
@@ -15,7 +19,7 @@ async function proxy(c: any, upstreamPath: string) {
     }
 
     try {
-        const res = await fetch(url.toString());
+        const res = await fetch(url.toString(), { headers: WIKIPEDIA_HEADERS });
         if(res.status === 404) {
             return c.json({ error: 'Not found'}, 404);
         }
@@ -34,7 +38,7 @@ async function proxy(c: any, upstreamPath: string) {
     }
 }
 
-app.get('/page/:title', (c) => proxy(c, `/page/${encodeTitle(c.req.param('title'))}`))
+app.get('/page/:title/history', (c) => proxy(c, `/page/${encodeTitle(c.req.param('title'))}/history`))
 // app.get('')
 
 
