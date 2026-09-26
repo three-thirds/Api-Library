@@ -7,7 +7,9 @@
  let { api}: {api:any} = $props();
  let open = $state(false);
  let values = $state<Record<string, string>>(
-    Object.fromEntries((api.params?? []).map((param: any) => [param.name, param.example ?? '']))
+    untrack(() => 
+        Object.fromEntries((api.params?? []).map((param: any) => [param.name, param.example ?? '']))
+    )
  );
 
  let loading = $state(false);
@@ -18,9 +20,15 @@
         loading = true;
         responseText: '';
         status: null;
+        let path = api.route;
+        
+        const query = new UrlSearchParams();
+        for (const param of api.params ?? []) {
+            const val= values[param.name];
+            
+        }
     }
-
-    let path = api.route;
+    
 
 </script>
 
