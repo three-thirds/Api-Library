@@ -1,27 +1,16 @@
-import { ImageResponse } from "@vercel/og";
-import apis from '$lib/apis.json';
-import type { RequestHandler} from './$types';
-
-export const config = {
-  runtime: 'edge',
-};
-
-export const GET: RequestHandler = async ({ params }) => {
-    const api = apis.find((api) => api.id === params.id);
-    if (!api) {
-        return new Response('API not found', { status: 404 });
-    }
-    
-    return new ImageResponse(
-        {
-            type: 'div',
-            props: {
-                children: api.name
-            }
-        } as any,
-        {
-            width: 1200,
-            height: 630
-        }
-    );
+import { ImageResponse } from '@ethercorps/sveltekit-og';
+import SimpleCard from '$lib/components/testog.svelte';
+import type { RequestHandler } from '@sveltejs/kit';
+ 
+// This is optional, use it if you want to generate OG image at build time.
+export const prerender = true;
+ 
+export const GET: RequestHandler = async () => {
+	return new ImageResponse(
+		SimpleCard, // ⬅️ Pass the Svelte component here
+		{
+			width: 1200,
+			height: 630
+		}
+	);
 };
