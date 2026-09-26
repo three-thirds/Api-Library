@@ -1,5 +1,6 @@
 <script lang="ts">
     import apis from "$lib/apis.json";
+    import Tryapi from "$lib/components/tryapi.svelte";
 
     const methods: Record<string, string> = {
         GET: "text-green-500",
@@ -71,7 +72,7 @@
                     </div>
                 </div>
             {/if}
-
+            <Tryapi {api}/>
         </article>
     {/each}
 
