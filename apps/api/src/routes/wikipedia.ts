@@ -2,7 +2,7 @@ import { Hono } from 'hono';
 
 const app = new Hono();
 
-const WIKIPEDIA_API_URL = "https://en.wikipedia.org/w/api.php";
+const WIKIPEDIA_API_URL = "https://en.wikipedia.org/w/rest.php/v1";
 
 function encodeTitle(title: string) {
     return encodeURIComponent(title.replace(/ /g, "_"));
@@ -34,17 +34,8 @@ async function proxy(c: any, upstreamPath: string) {
     }
 }
 
-app.get("/", async (c) => {
+app.get('/page/:title', (c) => proxy(c, `/page/${encodeTitle(c.req.param('title'))}`))
+// app.get('')
 
-    const response = await fetch("https://en.wikipedia.org/w/rest.php/v1/page/JavaScript/bare");
-
-    if (!response.ok) {
-        return c.json({ error: "Failed to fetch Wikipedia data" }, 502);
-    }
-
-    const data = await response.json();
-    return c.json(data);
-
-})
 
 export default app;
