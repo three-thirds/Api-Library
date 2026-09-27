@@ -5,6 +5,10 @@ import type { RequestHandler } from '@sveltejs/kit';
 // This is optional, use it if you want to generate OG image at build time.
 export const prerender = true;
  
+export function entries() {
+    return apis.map((api) => ({ id: api.id }));
+}
+
 export const GET: RequestHandler = async () => {
 	return new ImageResponse(
 		SimpleCard, // ⬅️ Pass the Svelte component here
