@@ -1,9 +1,11 @@
 {
-	"name": "api",
-	"private": true,
-	"type": "module",
-	"scripts": {},
-	"dependencies": {
-		"hono": "^4.13.8"
-	}
+  "name": "api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun --hot src/index.ts"
+  },
+  "dependencies": {
+    "hono": "^4.13.8"
+  }
 }
