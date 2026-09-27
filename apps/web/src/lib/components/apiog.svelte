@@ -2,8 +2,7 @@
 	  let { api }: { api: any } = $props();
 </script>
 
-<div class="relative flex h-full w-full flex-col bg-[#09090b] p-16">
-	<div class="absolute inset-6 border-2 border-dashed border-white/25"></div>
+<div class="relative flex h-full w-full flex-col bg-[#09090b] p-16 border-2 border-dashed rounded-lg border-white" style="border: 2px dashed white;">
 
 	<div class="absolute top-12 right-16 text-4xl text-white">
 		Threethirds API
