@@ -1,5 +1,8 @@
 import { Hono } from 'hono';
 import ping from './routes/ping';
+import weather from './routes/weather';
+import issLocation from './routes/iss-location';
+import wikipedia from './routes/wikipedia';
 import silver from './routes/silver';
 import oil from './routes/oil';
 import gold from './routes/gold';
@@ -18,6 +21,9 @@ import hackatime from './routes/hackatime';
 const api = new Hono();
 
 api.route('/ping', ping);
+api.route('/weather', weather)
+api.route('/iss-location', issLocation);
+api.route('/wikipedia', wikipedia);
 api.route('/silver', silver);
 api.route('/oil', oil);
 api.route('/gold', gold);

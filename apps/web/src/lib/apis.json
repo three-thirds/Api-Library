@@ -5,14 +5,31 @@
     "category": "Data",
     "route": "/api/v1/weather",
     "method": "GET",
-    "description": "Current conditions for a city",
-    "auth": true,
+    "description": "Current weather for a city",
+    "auth": false,
     "params": [
-      { "name": "city", "type": "string", "required": true, "example": "Sydney", "description": "City name" }
+      { "name": "latitude", "type": "string", "required": true, "example": "-33.9141", "description": "Latitude" },
+      { "name": "longitude", "type": "string", "required": true, "example": "151.2152", "description": "Longitude" }
     ],
     "response": { "ok": true, "data": { "city": "Sydney", "tempC": 21.4 } },
     "errors": [
-      { "code": "BAD_REQUEST", "status": 400, "message": "city is required" }
+      { "code": "BAD_REQUEST", "status": 400, "message": "Missing latitude or longitude query parameters" },
+      {"code": "INTERNAL_SERVER_ERROR", "status": 500, "message": "Internal server error" }
+    ]
+  },
+  {
+    "id": "iss-location",
+    "name": "Iss Location",
+    "category": "Data",
+    "route": "/api/v1/iss-location",
+    "method": "GET",
+    "description": "Where the ISS (International Space Station) is currently located",
+    "auth": false,
+    "params": [
+    ],
+    "response": { "ok": true, "data": { "city": "Sydney", "tempC": 21.4 } },
+    "errors": [
+      {"code": "Bad Gateway", "status": 502, "message": "Failed to fetch ISS location data" }
     ]
   }
 ]
