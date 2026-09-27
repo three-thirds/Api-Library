@@ -1,9 +1,15 @@
 <script lang="ts">
     import type { PageProps } from './$types';
-
+    import { Button } from "$lib/components/ui/button/index.js";
+      import Tryapi from '$lib/components/tryapi.svelte';
     let { data }: PageProps = $props();
     const api = $derived(data.api);
     const pageUrl = $derived(`https://api-library.vercel.app/docs/${api.id}`);
+
+    const methods: Record<string, string> = {
+        GET: 'text-green-500',
+        POST: 'text-blue-500',
+    };
 </script>
 
 <svelte:head>
@@ -24,7 +30,6 @@
 </svelte:head>
 
 <div class="flex flex-col gap-4">
-    {#each apis as api (api.id)}
         <article id={api.id} class="rounded-lg border border-border p-4">
             <!-- bleh header thinggy -->
             <div class="flex items-start justify-between gap-4">
@@ -92,6 +97,4 @@
             {/if}
             <Tryapi {api}/>
         </article>
-    {/each}
-
 </div>
