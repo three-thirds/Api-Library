@@ -1,5 +1,5 @@
 import { ImageResponse } from '@ethercorps/sveltekit-og';
-import SimpleCard from '$lib/components/testog.svelte';
+import SimpleCard from '$lib/components/apiog.svelte';
 import type { RequestHandler } from '@sveltejs/kit';
 import apis from '$lib/apis.json';
  
@@ -15,7 +15,8 @@ export const GET: RequestHandler = async () => {
 		SimpleCard, // ⬅️ Pass the Svelte component here
 		{
 			width: 1200,
-			height: 630
+			height: 630,
+			props: { api}
 		}
 	);
 };
