@@ -16,5 +16,20 @@
       { "code": "BAD_REQUEST", "status": 400, "message": "Missing latitude or longitude query parameters" },
       {"code": "INTERNAL_SERVER_ERROR", "status": 500, "message": "Internal server error" }
     ]
+  },
+  {
+    "id": "iss-location",
+    "name": "Iss Location",
+    "category": "Data",
+    "route": "/api/v1/iss-location",
+    "method": "GET",
+    "description": "Where the ISS (International Space Station) is currently located",
+    "auth": false,
+    "params": [
+    ],
+    "response": { "ok": true, "data": { "city": "Sydney", "tempC": 21.4 } },
+    "errors": [
+      {"code": "Bad Gateway", "status": 502, "message": "Failed to fetch ISS location data" }
+    ]
   }
 ]
