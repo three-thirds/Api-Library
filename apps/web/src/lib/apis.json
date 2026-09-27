@@ -5,14 +5,231 @@
     "category": "Data",
     "route": "/api/v1/weather",
     "method": "GET",
-    "description": "Current conditions for a city",
-    "auth": true,
+    "description": "Current weather for a city",
+    "auth": false,
     "params": [
-      { "name": "city", "type": "string", "required": true, "example": "Sydney", "description": "City name" }
+      { "name": "latitude", "type": "string", "required": true, "example": "-33.9141", "description": "Latitude" },
+      { "name": "longitude", "type": "string", "required": true, "example": "151.2152", "description": "Longitude" }
     ],
     "response": { "ok": true, "data": { "city": "Sydney", "tempC": 21.4 } },
     "errors": [
-      { "code": "BAD_REQUEST", "status": 400, "message": "city is required" }
+      { "code": "BAD_REQUEST", "status": 400, "message": "Missing latitude or longitude query parameters" },
+      {"code": "INTERNAL_SERVER_ERROR", "status": 500, "message": "Internal server error" }
+    ]
+  },
+  {
+    "id": "iss-location",
+    "name": "Iss Location",
+    "category": "Data",
+    "route": "/api/v1/iss-location",
+    "method": "GET",
+    "description": "Where the ISS (International Space Station) is currently located",
+    "auth": false,
+    "params": [
+    ],
+    "response": { "ok": true, "data": { "city": "Sydney", "tempC": 21.4 } },
+    "errors": [
+      {"code": "Bad Gateway", "status": 502, "message": "Failed to fetch ISS location data" }
+    ]
+  },
+  {
+    "id": "gold",
+    "name": "Gold",
+    "category": "Finance",
+    "route": "/api/v1/gold",
+    "method": "GET",
+    "description": "Spot gold in US dollars. price is one troy ounce. /usd is the same quote, /units lists every unit, /history is what this process has fetched.",
+    "auth": false,
+    "params": [
+      { "name": "unit", "type": "string", "required": false, "example": "g", "description": "oz, g, 10g, tola, or kg. Defaults to oz." },
+      { "name": "amount", "type": "number", "required": false, "example": "2", "description": "How many of that unit to price. Defaults to 1." }
+    ],
+    "response": { "ok": true, "metal": "gold", "symbol": "XAU", "currency": "USD", "price": 4286.9, "unit": "oz", "amount": 1, "totalUsd": 4286.9 },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "unknown unit" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "could not load the gold price" }
+    ]
+  },
+  {
+    "id": "silver",
+    "name": "Silver",
+    "category": "Finance",
+    "route": "/api/v1/silver",
+    "method": "GET",
+    "description": "Spot silver in US dollars for one troy ounce. Same unit and amount query as gold. /usd, /units, and /history work the same way.",
+    "auth": false,
+    "params": [
+      { "name": "unit", "type": "string", "required": false, "example": "kg", "description": "oz, g, 10g, tola, or kg. Defaults to oz." },
+      { "name": "amount", "type": "number", "required": false, "example": "10", "description": "How many of that unit to price. Defaults to 1." }
+    ],
+    "response": { "ok": true, "metal": "silver", "symbol": "XAG", "currency": "USD", "price": 64.53, "unit": "oz", "amount": 1, "totalUsd": 64.53 },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "unknown unit" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "could not load the silver price" }
+    ]
+  },
+  {
+    "id": "platinum",
+    "name": "Platinum",
+    "category": "Finance",
+    "route": "/api/v1/platinum",
+    "method": "GET",
+    "description": "Spot platinum in US dollars for one troy ounce. /usd is the same quote.",
+    "auth": false,
+    "params": [
+      { "name": "unit", "type": "string", "required": false, "example": "tola", "description": "oz, g, 10g, tola, or kg. Defaults to oz." },
+      { "name": "amount", "type": "number", "required": false, "example": "1", "description": "How many of that unit to price. Defaults to 1." }
+    ],
+    "response": { "ok": true, "metal": "platinum", "symbol": "XPT", "currency": "USD", "price": 1783, "unit": "oz", "amount": 1, "totalUsd": 1783 },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "unknown unit" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "could not load the platinum price" }
+    ]
+  },
+  {
+    "id": "copper",
+    "name": "Copper",
+    "category": "Finance",
+    "route": "/api/v1/copper",
+    "method": "GET",
+    "description": "Copper in US dollars per pound. The ounce here is a sixteenth of a pound, not the gold ounce. /usd is the same quote.",
+    "auth": false,
+    "params": [
+      { "name": "unit", "type": "string", "required": false, "example": "kg", "description": "lb, oz, kg, or t. Defaults to lb." },
+      { "name": "amount", "type": "number", "required": false, "example": "1", "description": "How many of that unit to price. Defaults to 1." }
+    ],
+    "response": { "ok": true, "metal": "copper", "symbol": "HG", "currency": "USD", "price": 6.7, "unit": "lb", "amount": 1, "totalUsd": 6.7 },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "unknown unit" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "could not load the copper price" }
+    ]
+  },
+  {
+    "id": "oil",
+    "name": "Crude oil",
+    "category": "Finance",
+    "route": "/api/v1/oil",
+    "method": "GET",
+    "description": "WTI or Brent in US dollars per barrel. /wti and /brent force the benchmark. /units and /history are there too.",
+    "auth": false,
+    "params": [
+      { "name": "benchmark", "type": "string", "required": false, "example": "brent", "description": "wti or brent. Defaults to wti." },
+      { "name": "unit", "type": "string", "required": false, "example": "l", "description": "bbl, gal, l, or impgal. Defaults to bbl." },
+      { "name": "amount", "type": "number", "required": false, "example": "1", "description": "How many of that unit to price. Defaults to 1." }
+    ],
+    "response": { "ok": true, "commodity": "crude oil", "benchmark": "wti", "currency": "USD", "price": 92.56, "unit": "bbl", "amount": 1, "totalUsd": 92.56 },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "unknown benchmark" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "could not load the crude oil price" }
+    ]
+  },
+  {
+    "id": "gas",
+    "name": "Natural gas",
+    "category": "Finance",
+    "route": "/api/v1/gas",
+    "method": "GET",
+    "description": "Henry Hub natural gas in US dollars per million BTU. /usd is the same quote.",
+    "auth": false,
+    "params": [
+      { "name": "unit", "type": "string", "required": false, "example": "therm", "description": "mmbtu or therm. Defaults to mmbtu. A therm is a tenth of an MMBtu." },
+      { "name": "amount", "type": "number", "required": false, "example": "10", "description": "How many of that unit to price. Defaults to 1." }
+    ],
+    "response": { "ok": true, "commodity": "natural gas", "symbol": "NG=F", "currency": "USD", "price": 3.225, "unit": "mmbtu", "amount": 1, "total": 3.225 },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "unknown unit" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "could not load the natural gas price" }
+    ]
+  },
+  {
+    "id": "stock",
+    "name": "Stock",
+    "category": "Finance",
+    "route": "/api/v1/stock/:symbol",
+    "method": "GET",
+    "description": "Last traded price for one share. US tickers are plain. NSE names need .NS, and the currency follows the listing.",
+    "auth": false,
+    "params": [
+      { "name": "symbol", "type": "string", "required": true, "example": "RELIANCE.NS", "description": "Ticker in the path. AAPL or RELIANCE.NS." },
+      { "name": "amount", "type": "number", "required": false, "example": "2", "description": "How many shares to extend the price across. Defaults to 1." }
+    ],
+    "response": { "ok": true, "kind": "stock", "symbol": "AAPL", "currency": "USD", "price": 341.07, "amount": 1, "total": 341.07 },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "symbol looks wrong" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "could not load that stock" }
+    ]
+  },
+  {
+    "id": "index",
+    "name": "Market index",
+    "category": "Finance",
+    "route": "/api/v1/index/:name",
+    "method": "GET",
+    "description": "Index level for the S&P 500, Nasdaq, Nifty 50, or Sensex. /api/v1/index lists the four names.",
+    "auth": false,
+    "params": [
+      { "name": "name", "type": "string", "required": true, "example": "nifty", "description": "sp500, nasdaq, nifty, or sensex, in the path." }
+    ],
+    "response": { "ok": true, "kind": "index", "index": "nifty", "currency": "INR", "price": 23140.5 },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "unknown index" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "could not load that index" }
+    ]
+  },
+  {
+    "id": "fx",
+    "name": "Exchange rate",
+    "category": "Finance",
+    "route": "/api/v1/fx/:pair",
+    "method": "GET",
+    "description": "How much quote currency you get for one unit of the base. USDINR is rupees per dollar. /api/v1/fx lists a few common pairs.",
+    "auth": false,
+    "params": [
+      { "name": "pair", "type": "string", "required": true, "example": "USDINR", "description": "Pair in the path. USDINR, EURUSD, GBPUSD, USDJPY, or another 6 letter pair." },
+      { "name": "amount", "type": "number", "required": false, "example": "10", "description": "How many units of the base currency to convert. Defaults to 1." }
+    ],
+    "response": { "ok": true, "kind": "fx", "pair": "USDINR", "base": "USD", "quote": "INR", "price": 95.82, "amount": 10, "total": 958.2 },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "pair looks wrong" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "could not load that rate" }
+    ]
+  },
+  {
+    "id": "crypto",
+    "name": "Crypto",
+    "category": "Finance",
+    "route": "/api/v1/crypto/:symbol",
+    "method": "GET",
+    "description": "Dollar price of bitcoin or ethereum. /api/v1/crypto lists the two coins.",
+    "auth": false,
+    "params": [
+      { "name": "symbol", "type": "string", "required": true, "example": "btc", "description": "btc or eth in the path. bitcoin and ethereum work too." },
+      { "name": "amount", "type": "number", "required": false, "example": "0.1", "description": "How many coins to price. Fractions are fine. Defaults to 1." }
+    ],
+    "response": { "ok": true, "kind": "crypto", "coin": "btc", "currency": "USD", "price": 84029, "amount": 0.1, "total": 8402.9 },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "unknown coin" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "could not load that coin" }
+    ]
+  },
+  {
+    "id": "regret",
+    "name": "Regret",
+    "category": "Finance",
+    "route": "/api/v1/regret",
+    "method": "GET",
+    "description": "What a pile of cash would be worth today if you had bought gold, bitcoin, oil, Nifty, Reliance, or the S&P on that date. Cash left alone is in the list too.",
+    "auth": false,
+    "params": [
+      { "name": "date", "type": "string", "required": true, "example": "2020-03-23", "description": "YYYY-MM-DD. A weekend walks forward to the next session." },
+      { "name": "amount", "type": "number", "required": true, "example": "100000", "description": "How much cash you pretend you had." },
+      { "name": "currency", "type": "string", "required": false, "example": "INR", "description": "INR or USD. Defaults to INR." },
+      { "name": "only", "type": "string", "required": false, "example": "btc,gold", "description": "Comma list if you do not want the whole basket. gold, btc, oil, nifty, reliance, sp500." }
+    ],
+    "response": { "ok": true, "date": "2020-03-23", "amount": 100000, "currency": "INR", "winner": { "id": "btc", "multiple": 16.61 }, "verdict": "Bitcoin did 16.61x. The rupees under the mattress are still 100000." },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "date is in the future" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "could not load the rupee rate" }
     ]
   }
 ]
