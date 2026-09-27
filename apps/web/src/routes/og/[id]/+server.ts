@@ -1,6 +1,5 @@
-import { ImageResponse } from '@ethercorps/sveltekit-og';
-import SimpleCard from '$lib/components/apiog.svelte';
-import type { RequestHandler } from '@sveltejs/kit';
+import { createOgImageHandler } from '$lib/og-image';
+import type { RequestHandler } from './$types';
 import apis from '$lib/apis.json';
  
 // This is optional, use it if you want to generate OG image at build time.
@@ -10,13 +9,10 @@ export function entries() {
     return apis.map((api) => ({ id: api.id }));
 }
 
-export const GET: RequestHandler = async () => {
-	return new ImageResponse(
-		SimpleCard, // ⬅️ Pass the Svelte component here
-		{
-			width: 1200,
-			height: 630,
-			props: { api}
-		}
-	);
+export const GET: RequestHandler = async (event) => {
+	const api = apis.find((api) => api.id === 	event.params.id);
+	if (!api) {
+		return new Response('Not found', { status: 404 });
+	}
+	return createOgImageHandler({ api })(event);
 };

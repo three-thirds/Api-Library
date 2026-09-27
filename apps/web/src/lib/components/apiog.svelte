@@ -7,6 +7,7 @@
 >
 	<h1 style="color: gray; font-size: 80px; margin: 0;">@ethercorps/sveltekit-og</h1>
 	<p style="color: gray; font-size: 36px; margin-top: 20px;">
-		Your Svelte Component Open Graph Image!
+		Your Svelte Component Open Graph Image! 
+		{api.name}
 	</p>
 </div>
