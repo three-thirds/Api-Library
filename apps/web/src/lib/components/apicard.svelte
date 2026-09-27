@@ -30,7 +30,7 @@
                         View Docs
                     </Button>           
                 </div>
-                <code class="shrink-0 rounded-md bg-muted px-2 py-1 text-xs font-medium flex items-center gap-1.5">
+                <code class="shrink-0 rounded-md bg-muted px-2 py-1 text-xs font-medium flex items-center gap-1.5" onclick={() => window.location.href = `${api.route}`}>
                     <span class={`font-semibold ${methods[api.method] || 'text-gray-500'}`}>{api.method}</span>
                     {api.route}
                 </code>
