@@ -172,3 +172,114 @@ export function upstreamError(err: unknown, error: string) {
 	const details = err instanceof Error ? err.message : String(err);
 	return { ok: false, error, details } as const;
 }
+
+// a close from last year is not going to change. the spot cache above
+// is only a minute because those prices actually move.
+const CLOSE_CACHE_MS = 24 * 60 * 60 * 1000;
+
+export type DailyClose = {
+	symbol: string;
+	currency: string;
+	close: number;
+	// the session we actually used. saturday in, monday out.
+	date: string;
+};
+
+const closeBoxes = new Map<string, { row: DailyClose; goodUntil: number }>();
+
+function utcDay(unixSeconds: number): string {
+	return new Date(unixSeconds * 1000).toISOString().slice(0, 10);
+}
+
+function dayUnix(iso: string): number {
+	const [year, month, day] = iso.split('-').map(Number);
+	return Date.UTC(year, month - 1, day) / 1000;
+}
+
+function addDays(iso: string, days: number): string {
+	return utcDay(dayUnix(iso) + days * 86400);
+}
+
+function readClose(payload: unknown, requested: string, fromDay: string): DailyClose {
+	const root = asRecord(payload);
+	const chart = asRecord(root?.chart);
+	const rows = chart?.result;
+	const first = Array.isArray(rows) ? rows[0] : null;
+	const row = asRecord(first);
+
+	if (!row) {
+		const err = asRecord(chart?.error);
+		const description = typeof err?.description === 'string' ? err.description : 'yahoo chart had no history';
+		throw new Error(description);
+	}
+
+	const meta = asRecord(row.meta);
+	const stamps = row.timestamp;
+	const indicators = asRecord(row.indicators);
+	const quoteRows = indicators?.quote;
+	const quote = Array.isArray(quoteRows) ? asRecord(quoteRows[0]) : null;
+	const closes = quote?.close;
+
+	if (!Array.isArray(stamps) || !Array.isArray(closes)) {
+		throw new Error('yahoo history had no closes');
+	}
+
+	// a saturday request should still find monday. if the whole week is
+	// empty (bitcoin before it existed, a dead ticker) just fail.
+	const lastDay = addDays(fromDay, 7);
+
+	for (let i = 0; i < stamps.length; i++) {
+		const stamp = Number(stamps[i]);
+		if (!Number.isFinite(stamp)) continue;
+
+		const day = utcDay(stamp);
+		if (day < fromDay || day > lastDay) continue;
+
+		const close = Number(closes[i]);
+		if (!Number.isFinite(close) || close <= 0) continue;
+
+		return {
+			symbol: typeof meta?.symbol === 'string' ? meta.symbol : requested,
+			currency: typeof meta?.currency === 'string' ? meta.currency : 'USD',
+			close,
+			date: day
+		};
+	}
+
+	throw new Error(`no close for ${requested} within a week of ${fromDay}`);
+}
+
+async function pullClose(symbol: string, isoDate: string): Promise<DailyClose> {
+	const start = dayUnix(isoDate);
+	// a bit more than 7 days so the last walked session is actually in the payload
+	const end = start + 10 * 86400;
+	const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?period1=${start}&period2=${end}&interval=1d`;
+
+	const res = await fetch(url, {
+		headers: {
+			accept: 'application/json',
+			'user-agent': 'threethirds-api'
+		},
+		signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS)
+	});
+
+	if (!res.ok) {
+		throw new Error(`upstream responded ${res.status}`);
+	}
+
+	return readClose(await res.json(), symbol, isoDate);
+}
+
+export async function loadDailyClose(symbol: string, isoDate: string): Promise<DailyClose> {
+	const key = `${symbol.toUpperCase()}|${isoDate}`;
+	const now = Date.now();
+	const box = closeBoxes.get(key);
+
+	if (box && now < box.goodUntil) {
+		return box.row;
+	}
+
+	const fresh = await pullClose(symbol.toUpperCase(), isoDate);
+	closeBoxes.set(key, { row: fresh, goodUntil: now + CLOSE_CACHE_MS });
+	return fresh;
+}
