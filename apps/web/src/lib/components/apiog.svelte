@@ -2,12 +2,14 @@
 	  let { api }: { api: any } = $props();
 </script>
 
-<div
-	style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%; background-color: #101011;"
->
-	<h1 style="color: gray; font-size: 80px; margin: 0;">@ethercorps/sveltekit-og</h1>
-	<p style="color: gray; font-size: 36px; margin-top: 20px;">
-		Your Svelte Component Open Graph Image! 
-		{api.name}
-	</p>
+<div class="relative flex h-full w-full flex-col bg-[#09090b] p-16">
+	<div class="absolute inset-6 border-2 border-dashed border-white/25"></div>
+
+	<div class="absolute top-12 right-16 text-4xl text-white">
+		Threethirds API
+	</div>
+
+	<div class="flex flex-1 flex-col justify-center px-10">
+		<div class="mb-5 text-xl uppercase tracking-widest text-[#6B7280]">{api.category}</div>
+	</div>
 </div>
