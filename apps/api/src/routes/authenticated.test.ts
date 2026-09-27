@@ -1,7 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import authApp from "./authenticated";
 import { generateMasteKey, saveVault, sha256, UserVault } from "../lib/vault";
-import { auth } from "hono/utils/basic-auth";
 
 describe('Authenticated Proxy Routes', () => {
   it('Rejects unauthorizes requests', async () => {
