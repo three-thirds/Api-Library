@@ -231,5 +231,161 @@
       { "code": "BAD_REQUEST", "status": 400, "message": "date is in the future" },
       { "code": "BAD_GATEWAY", "status": 502, "message": "could not load the rupee rate" }
     ]
-  }
+  },
+  {
+    "id": "minecraft-status",
+    "name": "Minecraft Status",
+    "category": "Gaming",
+    "route": "/minecraft/:server",
+    "method": "GET",
+    "description": "Live status, player count, version, and clean MOTD for any Minecraft server.",
+    "auth": false,
+    "params": [
+      { "name": "server", "type": "string", "required": true, "example": "2b2t.org", "description": "Server IP or hostname" }
+    ],
+    "response": {
+      "online": true,
+      "ip": "144.217.10.166",
+      "port": 25565,
+      "version": "1.20.4",
+      "players": { "online": 412, "max": 1050 },
+      "motd": "2b2t is a Minecraft server with no rules."
+    },
+    "errors": [
+      { "code": "BAD_GATEWAY", "status": 502, "message": "Failed to query server" }
+    ]
+  },
+  {
+    "id": "status-audit",
+    "name": "Status Page Lie Detector",
+    "category": "Diagnostics",
+    "route": "/status/:service",
+    "method": "GET",
+    "description": "Audits official Statuspage claims against live monotonic latency probes.",
+    "auth": false,
+    "params": [
+      { "name": "service", "type": "string", "required": true, "example": "vercel", "description": "github, vercel, or cloudflare" }
+    ],
+    "response": {
+      "service": "Vercel",
+      "official_claim": "All Systems Operational",
+      "live_probe": { "reachable": true, "status": 200, "latencyMs": 62 },
+      "trust_score": "99/100",
+      "verdict": "Truthful: Fast response time matches operational status claim."
+    },
+    "errors": [
+      { "code": "NOT_FOUND", "status": 404, "message": "Unknown service" }
+    ]
+  },
+  {
+    "id": "hackatime-user",
+    "name": "Hackatime User Stats",
+    "category": "Telemetry",
+    "route": "/hackatime/user/:username",
+    "method": "GET",
+    "description": "Aggregates total coding hours, daily averages, streaks, trust factor, languages, and projects.",
+    "auth": false,
+    "params": [
+      { "name": "username", "type": "string", "required": true, "example": "chish", "description": "Hackatime username or Slack ID" }
+    ],
+    "response": {
+      "username": "chish",
+      "total_hours": 26.0,
+      "daily_average_hours": 3.7,
+      "streak_days": 8,
+      "trust_factor": "green",
+      "languages": [{ "name": "Rust", "hours": 15.2, "percent": 58.5 }]
+    },
+    "errors": [
+      { "code": "FORBIDDEN", "status": 403, "message": "User has disabled public stats lookup" },
+      { "code": "NOT_FOUND", "status": 404, "message": "User not found" }
+    ]
+  },
+  {
+    "id": "hackatime-active",
+    "name": "Currently Hacking",
+    "category": "Telemetry",
+    "route": "/hackatime/currently_hacking",
+    "method": "GET",
+    "description": "Live feed of Hack Club members actively logging code in the last 5 minutes.",
+    "auth": false,
+    "params": [],
+    "response": {
+      "count": 14,
+      "users": [
+        { "display_name": "Orpheus", "avatar_url": "https://hackatime.hackclub.com/images/athena.png", "working_on": { "project_name": "hackatime" } }
+      ]
+    },
+    "errors": [
+      { "code": "BAD_GATEWAY", "status": 502, "message": "Failed to fetch currently hacking users" }
+    ]
+  },
+  {
+    "id": "vault-create-key",
+    "name": "Generate Master Key",
+    "category": "Auth & Vault",
+    "route": "/keys/create",
+    "method": "POST",
+    "description": "Generates a 128-bit ApiContrib Master Key (ac_live_...) and initializes an empty vault.",
+    "auth": false,
+    "params": [
+      { "name": "name", "type": "string", "required": false, "example": "Production Laptop", "description": "Label for the key" }
+    ],
+    "response": {
+      "message": "Master key successfully generated! Store it safely; it will never be displayed again.",
+      "master_key": "ac_live_7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c",
+      "user_id": "c1a2b3c4-d5e6-7f8a-9b0c-1d2e3f4a5b6c"
+    },
+    "errors": []
+  },
+  {
+    "id": "auth-weather",
+    "name": "Authenticated Weather Proxy",
+    "category": "Auth & Vault",
+    "route": "/authenticated/weather/:city",
+    "method": "GET",
+    "description": "Proxies live weather queries by unlocking the user's vaulted OpenWeather credential. Zero credentials exposed to frontend.",
+    "auth": true,
+    "params": [
+      { "name": "city", "type": "string", "required": true, "example": "tokyo", "description": "City name in path" }
+    ],
+    "response": {
+      "city": "Tokyo",
+      "country": "JP",
+      "temperature_c": 18.5,
+      "conditions": "clear sky",
+      "proxied_for": "Chish"
+    },
+    "errors": [
+      { "code": "UNAUTHORIZED", "status": 401, "message": "Missing API key" },
+      { "code": "BAD_REQUEST", "status": 400, "message": "No openweather key found in your vault" }
+    ]
+  },
+    {
+    "id": "crates-info",
+    "name": "Rust Crate Inspector",
+    "category": "Developer Tools",
+    "route": "/crates/:name",
+    "method": "GET",
+    "description": "Fetches info like total downloads, repository, docs.rs links and stuff from crates.io",
+    "auth": false,
+    "params": [
+      { "name": "city", "type": "string", "required": true, "example": "tokio", "description": "Crate name in path" }
+    ],
+    "response": {
+      "name":"tokio",
+      "max_version":"1.53.1",
+      "description":"An event-driven, non-blocking I/O platform for writing asynchronous I/O\nbacked applications.\n",
+      "downloads":{"total":1003889737,"recent":235563205},
+      "repository":"https://github.com/tokio-rs/tokio",
+      "documentation":"https://docs.rs/tokio",
+      "crates_io_url":"https://crates.io/crates/tokio",
+      "updated_at":"2026-07-20T17:06:09.996426Z",
+      "cached":false
+    },
+    "errors": [
+      { "code": "NOT_FOUND", "status": 404, "message": "Crate not found on crates.io" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "Crates.io returned HTTP error" }
+    ]
+  }  
 ]
