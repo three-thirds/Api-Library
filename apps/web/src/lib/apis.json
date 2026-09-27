@@ -360,5 +360,32 @@
       { "code": "UNAUTHORIZED", "status": 401, "message": "Missing API key" },
       { "code": "BAD_REQUEST", "status": 400, "message": "No openweather key found in your vault" }
     ]
-  }
+  },
+    {
+    "id": "crates-info",
+    "name": "Rust Crate Inspector",
+    "category": "Developer Tools",
+    "route": "/crates/:name",
+    "method": "GET",
+    "description": "Fetches info like total downloads, repository, docs.rs links and stuff from crates.io",
+    "auth": false,
+    "params": [
+      { "name": "city", "type": "string", "required": true, "example": "tokio", "description": "Crate name in path" }
+    ],
+    "response": {
+      "name":"tokio",
+      "max_version":"1.53.1",
+      "description":"An event-driven, non-blocking I/O platform for writing asynchronous I/O\nbacked applications.\n",
+      "downloads":{"total":1003889737,"recent":235563205},
+      "repository":"https://github.com/tokio-rs/tokio",
+      "documentation":"https://docs.rs/tokio",
+      "crates_io_url":"https://crates.io/crates/tokio",
+      "updated_at":"2026-07-20T17:06:09.996426Z",
+      "cached":false
+    },
+    "errors": [
+      { "code": "NOT_FOUND", "status": 404, "message": "Crate not found on crates.io" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "Crates.io returned HTTP error" }
+    ]
+  }  
 ]
