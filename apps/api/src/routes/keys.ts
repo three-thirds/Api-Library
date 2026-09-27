@@ -1,7 +1,6 @@
 import { Hono } from "hono";
 import { requiresApiKey, type AuthEnv } from "../middleware/auth";
 import { generateMasteKey, saveVault, sha256, UserVault } from "../lib/vault";
-import { secrets } from "bun";
 
 const app = new Hono<AuthEnv>();
 

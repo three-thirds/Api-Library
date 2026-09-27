@@ -17,6 +17,8 @@ import regret from './routes/regret';
 import minecraft from './routes/minecraft';
 import status from './routes/status';
 import hackatime from './routes/hackatime';
+import keys from './routes/keys';
+import authenticated from './routes/authenticated';
 
 const api = new Hono();
 
@@ -38,5 +40,7 @@ api.route('/regret', regret);
 api.route('/minecraft', minecraft);
 api.route('/status', status);
 api.route('/hackatime', hackatime);
+api.route('/keys', keys);
+api.route('/authenticated', authenticated);
 
 export default api;
