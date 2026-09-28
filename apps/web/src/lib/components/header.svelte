@@ -12,7 +12,7 @@
     import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js"
 </script>
 
-<header class="flex items-center gap-2 border-b bg-background/50 p-2 justify-between mr-3">
+<header class="flex items-center gap-2 border-b bg-background/50 p-2 justify-between mr-2">
     <div>
     {#each links as link}
         <Button variant={page.url.pathname === link.href ? "secondary" : "ghost"} href={link.href}>{link.label}</Button>
