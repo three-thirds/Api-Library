@@ -9,7 +9,7 @@
     ]
 
     import * as Avatar from "$lib/components/ui/avatar/index.js";
-
+    import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js"
 </script>
 
 <header class="flex items-center gap-2 border-b bg-background/50 p-2 justify-between mr-3">
