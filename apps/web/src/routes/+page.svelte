@@ -1,6 +1,8 @@
 <script lang="ts">
 </script>
 
+<h1> Look at the docs </h1>
+
 hi
 hi
 <br>hi

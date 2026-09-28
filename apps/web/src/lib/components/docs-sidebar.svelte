@@ -20,12 +20,12 @@
   );
  </script>
  
-<Sidebar.Root collapsible="none" class="h-screen bg-background/90 border-r border-dotted">
+<Sidebar.Root collapsible="none" class="h-full max-h-full flex flex-col bg-background/90 border-r border-dotted">
  <Sidebar.Header>
  <Sidebar.Input bind:value={search} placeholder="Search APIs..." />
  </Sidebar.Header>
 
- <Sidebar.Content>
+ <Sidebar.Content class="flex-1 min-h-0 overflow-y-auto pb-12">
     {#each Object.entries(grouped) as [category, apis]}
         <Sidebar.Group>
             <Sidebar.GroupLabel>{category}</Sidebar.GroupLabel>
@@ -44,5 +44,6 @@
             </Sidebar.GroupContent>
         </Sidebar.Group>
     {/each}
+        <div class="h-24 shrink-0" aria-hidden="true"></div>
  </Sidebar.Content>
 </Sidebar.Root>

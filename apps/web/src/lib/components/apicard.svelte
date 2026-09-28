@@ -57,13 +57,25 @@
                 </div>
             {/if}
 
-            {#if api.errors.length > 0}
+            {#if api.response || api.errors.length > 0}
                 <div class="mt-5">
                     <h3 class="mb-2 text-xs font-medium uppercase text-muted-foreground tracking-wide">
                         Responses 
                     </h3>
 
                     <div class="divide-y divide-border rounded-lg border border-border">
+                      {#if api.response}
+                        <div class="p-3 bg-muted/20">
+                          <div class="flex items-center gap-3">
+                            <span class="rounded-md bg-green-500/10 px-2 py-0.5 text-xs font-medium text-green-500">
+                              200
+                            </span>
+                            <code class="text-sm font-semibold">OK</code>
+                            <span class="text-sm text-muted-foreground">Success</span>
+                          </div>
+                          <pre class="mt-2.5 overflow-x-auto rounded-md bg-muted/60 p-3 text-xs font-mono text-foreground leading-relaxed"><code>{JSON.stringify(api.response, null, 2)}</code></pre>
+                        </div>
+                      {/if}
                         {#each api.errors as res(res.code)}
                             <div class="flex items-center gap-3 p-3">
                                 <span class="rounded-md bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive">
