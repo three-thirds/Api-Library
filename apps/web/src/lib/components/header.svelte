@@ -27,14 +27,11 @@
                 <Avatar.Fallback>CN</Avatar.Fallback>
             </Avatar.Root>
 
-            <DropdownMenu.Content sideOffset={5} align="end">
+            <DropdownMenu.Content align="end" class="flex flex-col gap-2">
                 <DropdownMenu.Group>
-                    <DropdownMenu.Label>My Account</DropdownMenu.Label>
+                    <DropdownMenu.Label>Account</DropdownMenu.Label>
                     <DropdownMenu.Separator />
-                    <DropdownMenu.Item>Profile</DropdownMenu.Item>
-                    <DropdownMenu.Item>Billing</DropdownMenu.Item>
-                    <DropdownMenu.Item>Team</DropdownMenu.Item>
-                    <DropdownMenu.Item>Subscription</DropdownMenu.Item>
+                    <Button variant="outline">Login/Signup</Button>
                 </DropdownMenu.Group>
             </DropdownMenu.Content>
         </DropdownMenu.Trigger>
