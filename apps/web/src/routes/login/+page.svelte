@@ -24,7 +24,7 @@
       error = err.message ?? 'Something went wrong';
       return;
     }
-    await goto('/', { invalidateAll: true });
+    await goto('/dashboard', { invalidateAll: true });
   }
 </script>
 
