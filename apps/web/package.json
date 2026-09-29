@@ -33,6 +33,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@ethercorps/sveltekit-og": "^4.3.0"
+		"@ethercorps/sveltekit-og": "^4.3.0",
+		"better-auth": "^1.7.6"
 	}
 }
