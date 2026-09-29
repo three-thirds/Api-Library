@@ -4,4 +4,4 @@
 </script>
 
 {data.user.name}
-
+<!-- {data.session.id} -->
