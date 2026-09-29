@@ -19,6 +19,7 @@
 		"wrangler": "^4.136.1"
 	},
 	"dependencies": {
+		"better-auth": "^1.7.6",
 		"marked": "^18.0.14"
 	}
 }
