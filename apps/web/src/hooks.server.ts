@@ -1,7 +1,11 @@
 import type { Handle } from '@sveltejs/kit';
+import { svelteKitHandler } from 'better-auth/svelte-kit';
+import { building } from '$app/environment';
+import { createAuth } from '$lib/auth';
 import api from '../../api/src/index';
 
 export const handle: Handle = async ({ event, resolve }) => {
+  // Existing API proxy
   if (event.url.pathname.startsWith('/api/v1/')) {
     const apiPath = event.url.pathname.slice('/api/v1'.length) || '/';
 
@@ -13,5 +17,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     return api.fetch(apiRequest, event.platform?.env);
   }
 
-  return resolve(event);
+  // Better Auth (handles /api/auth/*, passes everything else to resolve)
+  const auth = createAuth(event.platform!.env);
+  return svelteKitHandler({ event, resolve, auth, building });
 };
