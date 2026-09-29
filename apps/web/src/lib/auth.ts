@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { drizzle } from "drizzle-orm/d1";
+import * as schema from "../db/auth-schema";
 
 export const auth = betterAuth({
   database: drizzleAdapter({} as any, { provider: "sqlite" }),
@@ -9,7 +10,10 @@ export const auth = betterAuth({
 
 export const createAuth = (env: Env) =>
   betterAuth({
-    database: drizzleAdapter(drizzle(env.threethirds_db), { provider: "sqlite" }),
+    database: drizzleAdapter(drizzle(env.threethirds_db, { schema }), {
+      provider: "sqlite",
+      schema,
+    }),
     secret: env.BETTER_AUTH_SECRET,
     baseURL: env.BETTER_AUTH_URL,
     emailAndPassword: { enabled: true },
