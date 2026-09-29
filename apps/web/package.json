@@ -11,6 +11,7 @@
 		"@tailwindcss/vite": "^4.3.3",
 		"bits-ui": "^2.18.0",
 		"cn": "^0.3.0",
+		"drizzle-kit": "^0.31.11",
 		"shadcn-svelte": "^1.7.0",
 		"svelte": "^5.56.1",
 		"svelte-check": "^4.6.0",
@@ -34,6 +35,8 @@
 	"type": "module",
 	"dependencies": {
 		"@ethercorps/sveltekit-og": "^4.3.0",
-		"better-auth": "^1.7.6"
+		"better-auth": "^1.7.6",
+		"better-sqlite3": "^13.0.3",
+		"drizzle-orm": "^0.45.3"
 	}
 }
