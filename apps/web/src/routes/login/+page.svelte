@@ -1,6 +1,7 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { authClient } from '$lib/auth-client';
+  import { Input } from '$lib/components/ui/input/index.js';
 
   let mode = $state<'signin' | 'signup'>('signin');
   let name = $state('');
@@ -29,12 +30,12 @@
 </script>
 
 <form onsubmit={submit}>
-  <h1>{mode === 'signin' ? 'Log in' : 'Create account'}</h1>
+  <h1 class="text-2xl uppercase tracking-wide">{mode === 'signin' ? 'Log in' : 'Create account'}</h1>
 
   {#if mode === 'signup'}
-    <input type="text" placeholder="Name" bind:value={name} required />
+    <Input type="text" placeholder="Name" bind:value={name} required />
   {/if}
-  <input type="email" placeholder="Email" bind:value={email} required />
+  <Input type="email" placeholder="Email" bind:value={email} required />
   <input type="password" placeholder="Password" bind:value={password} minlength="8" required />
 
   {#if error}<p style="color: red">{error}</p>{/if}
