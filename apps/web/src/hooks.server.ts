@@ -20,13 +20,20 @@ export const handle: Handle = async ({ event, resolve }) => {
   }
 
   // Better Auth (handles /api/auth/*, passes everything else to resolve)
-  if (building || !env) return resolve(event);
+  if (!building && env) {
+    try {
+      const auth = createAuth(env);
 
-  const auth = createAuth(env);
+      const session = await auth.api.getSession({ headers: event.request.headers });
+      event.locals.user = session?.user ?? null;
+      event.locals.session = session?.session ?? null;
 
-  const session = await auth.api.getSession({ headers: event.request.headers });
-  event.locals.user = session?.user ?? null;
-  event.locals.session = session?.session ?? null;
+    } catch (err) {
 
-  return svelteKitHandler({ event, resolve, auth, building });
+      event.locals.user = null;
+      event.locals.session = null;
+    }
+  }
+
+  return resolve(event);
 };
