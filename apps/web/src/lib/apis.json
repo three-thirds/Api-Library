@@ -233,6 +233,35 @@
     ]
   },
   {
+    "id": "portfolio",
+    "name": "Portfolio",
+    "category": "Finance",
+    "route": "/api/v1/portfolio",
+    "method": "POST",
+    "description": "POST a list of holdings and get them marked to today's spot in INR or USD. Aliases cover gold, silver, platinum, copper, oil, gas, btc, eth, and the usual indices. Anything else is a stock ticker. GET /api/v1/portfolio lists the aliases. Gold/silver/platinum amounts are troy ounces; copper is pounds.",
+    "auth": false,
+    "params": [
+      { "name": "currency", "type": "string", "required": false, "example": "INR", "description": "INR or USD for the total and for cash. Defaults to INR. Sent in the JSON body." },
+      { "name": "holdings", "type": "array", "required": true, "example": "[{\"id\":\"gold\",\"amount\":2},{\"id\":\"btc\",\"amount\":0.1},{\"id\":\"AAPL\",\"amount\":10},{\"id\":\"cash\",\"amount\":50000}]", "description": "JSON array of { id, amount }. 1 to 20 rows. Duplicate ids merge." }
+    ],
+    "response": {
+      "ok": true,
+      "currency": "INR",
+      "total": 1854321.5,
+      "holdings": [
+        { "id": "gold", "name": "Gold", "symbol": "GC=F", "amount": 2, "price": 4286.9, "quoteCurrency": "USD", "value": 820000.12, "weight": 0.44 }
+      ],
+      "skipped": [],
+      "winner": { "id": "gold", "weight": 0.44 },
+      "loser": { "id": "cash", "weight": 0.03 },
+      "verdict": "Gold is 44% of the pile. Cash is the quiet leftover."
+    },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "holdings cannot be empty" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "none of those holdings had a price" }
+    ]
+  },
+  {
     "id": "minecraft-status",
     "name": "Minecraft Status",
     "category": "Gaming",
