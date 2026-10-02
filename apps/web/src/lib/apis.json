@@ -262,6 +262,35 @@
     ]
   },
   {
+    "id": "split",
+    "name": "Split",
+    "category": "Finance",
+    "route": "/api/v1/split",
+    "method": "POST",
+    "description": "POST a bill total and a list of people with shares. Each person gets what they owe in the request currency plus INR and USD via today's rupee rate. share is a fraction or the string equal. GET /api/v1/split shows the body shape.",
+    "auth": false,
+    "params": [
+      { "name": "total", "type": "number", "required": true, "example": "3000", "description": "Bill total in the request currency. Sent in the JSON body." },
+      { "name": "currency", "type": "string", "required": false, "example": "INR", "description": "INR or USD. Defaults to INR." },
+      { "name": "people", "type": "array", "required": true, "example": "[{\"name\":\"a\",\"share\":0.5},{\"name\":\"b\",\"share\":0.3},{\"name\":\"c\",\"share\":\"equal\"}]", "description": "JSON array of { name, share }. 1 to 20. share is 0-1 or equal." }
+    ],
+    "response": {
+      "ok": true,
+      "total": 3000,
+      "currency": "INR",
+      "usdInr": 95.82,
+      "people": [
+        { "name": "a", "share": 0.5, "owes": 1500, "owesInr": 1500, "owesUsd": 15.65 }
+      ],
+      "winner": { "name": "a", "owes": 1500 },
+      "verdict": "a pays the most (1500 rupees)."
+    },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "people cannot be empty" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "could not load the rupee rate" }
+    ]
+  },
+  {
     "id": "minecraft-status",
     "name": "Minecraft Status",
     "category": "Gaming",
