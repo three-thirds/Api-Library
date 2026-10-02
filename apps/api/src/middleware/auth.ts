@@ -25,7 +25,8 @@ export const requiresApiKey = createMiddleware(async (c, next) => {
 
   //Hash the key and look em up in da storage
   const keyHash = await sha256(rawKey);
-  const kv = (c.env as any)?.VAUKT_KV;
+  const kv = (c.env as any)?.VAULT_KV;
+  console.log('[AUTH BOUNCER] Checking hash:', keyHash, 'KV active:', !!kv);
   const vault = await getVaultByHash(kv, keyHash);
 
   if (!vault) {
