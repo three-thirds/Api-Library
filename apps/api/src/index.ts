@@ -20,11 +20,13 @@ import hackatime from './routes/hackatime';
 import crates from './routes/crates';
 import keys from './routes/keys';
 import authenticated from './routes/authenticated';
+import { rateLimiter } from './middleware/rateLimit';
 
 const api = new Hono();
 
+api.use('*', rateLimiter({ capacity: 60, refillRate: 1 }));
 api.route('/ping', ping);
-api.route('/weather', weather)
+api.route('/weather', weather);
 api.route('/iss-location', issLocation);
 api.route('/wikipedia', wikipedia);
 api.route('/silver', silver);
@@ -44,5 +46,6 @@ api.route('/hackatime', hackatime);
 api.route('/crates', crates);
 api.route('/keys', keys);
 api.route('/authenticated', authenticated);
+
 
 export default api;
