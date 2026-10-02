@@ -387,5 +387,30 @@
       { "code": "NOT_FOUND", "status": 404, "message": "Crate not found on crates.io" },
       { "code": "BAD_GATEWAY", "status": 502, "message": "Crates.io returned HTTP error" }
     ]
-  }  
+  },
+  {
+    "id": "linux-kernel",
+    "name": "Linux Kernel Info",
+    "category": "Developer Tools",
+    "route": "/kernel/check/:version",
+    "method": "GET",
+    "description": "Fetches info like total downloads, repository, docs.rs links and stuff from crates.io",
+    "auth": false,
+    "params": [
+      { "name": "version", "type": "string", "required": true, "example": "6.12.5", "description": "Kernel version to audit" }
+    ],
+    "response": {
+      "queried_version": "6.12.5",
+      "branch": "6.12",
+      "status": "Active (Latest Stable/Mainline)",
+      "is_eol": false,
+      "latest_patch_on_branch": "6.12.5",
+      "recommendation": "You are on the latest cutting-edge kernel."
+    },
+    "errors": [
+      { "code": "NOT_FOUND", "status": 404, "message": "Invalid version format" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "Failed to fetch Linux kernel data" }
+    ]
+  }
+
 ]
