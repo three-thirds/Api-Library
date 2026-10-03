@@ -14,6 +14,8 @@ import indices from './routes/indices';
 import fx from './routes/fx';
 import crypto from './routes/crypto';
 import regret from './routes/regret';
+import portfolio from './routes/portfolio';
+import split from './routes/split';
 import minecraft from './routes/minecraft';
 import status from './routes/status';
 import hackatime from './routes/hackatime';
@@ -21,6 +23,7 @@ import crates from './routes/crates';
 import keys from './routes/keys';
 import authenticated from './routes/authenticated';
 import kernel from './routes/kernel'
+import apilist from './routes/apis';
 
 const api = new Hono();
 
@@ -39,6 +42,8 @@ api.route('/index', indices);
 api.route('/fx', fx);
 api.route('/crypto', crypto);
 api.route('/regret', regret);
+api.route('/portfolio', portfolio);
+api.route('/split', split);
 api.route('/minecraft', minecraft);
 api.route('/status', status);
 api.route('/hackatime', hackatime);
@@ -46,6 +51,6 @@ api.route('/crates', crates);
 api.route('/keys', keys);
 api.route('/authenticated', authenticated);
 api.route('/kernel', kernel);
-
+api.route('/apis', apilist);
 
 export default api;
