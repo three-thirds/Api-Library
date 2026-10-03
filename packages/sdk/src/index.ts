@@ -19,7 +19,7 @@ export class ApiClient {
     options: {
       apiKey?: string;
       baseUrl?: string;
-    }
+    } = {}
   ) {
     this.baseUrl = options.baseUrl ?? "https://api.threethirds.dev/api/v1";
     this.apiKey = options.apiKey
