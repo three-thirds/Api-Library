@@ -1,3 +1,3 @@
-import { test } from "../packages/sdk/src/index.ts";
+import { gold } from "../packages/sdk/src/index.ts";
 
-console.log(test());
+console.log(await gold());
