@@ -19,6 +19,7 @@
 		"wrangler": "^4.136.1"
 	},
 	"dependencies": {
-		"marked": "^18.0.14"
+		"marked": "^18.0.14",
+		"tsup": "^8.5.1"
 	}
 }

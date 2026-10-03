@@ -22,6 +22,7 @@ import hackatime from './routes/hackatime';
 import crates from './routes/crates';
 import keys from './routes/keys';
 import authenticated from './routes/authenticated';
+import apilist from './routes/apis';
 
 const api = new Hono();
 
@@ -48,5 +49,6 @@ api.route('/hackatime', hackatime);
 api.route('/crates', crates);
 api.route('/keys', keys);
 api.route('/authenticated', authenticated);
+api.route('/apis', apilist);
 
 export default api;

@@ -1,0 +1,16 @@
+{
+  "name": "tests",
+  "version": "0.0.1",
+  "module": "index.ts",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.9.3"
+  },
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@threethirds/sdk": "^0.2.0"
+  }
+}
