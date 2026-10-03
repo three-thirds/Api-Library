@@ -20,7 +20,7 @@ app.post('/create', async (c) => {
 
   const kv = (c.env as any)?.VAULT_KV;
   await saveVault(kv, keyHash, initialVault);
-
+  console.log('[KEYS CREATE] Storing hash:', keyHash, 'KV active:', !!kv);
   return c.json({
     message: 'Master Key successfully created! Store it safely, it will never be displayed again',
     master_key: rawKey,
