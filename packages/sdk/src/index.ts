@@ -36,7 +36,7 @@ class ApiClient {
     }
 
     gold = () => this.get('/gold');
-    apiList = () => this.get('/apiList');
+    apiList = () => this.get('/aois');
 }
 
 export { ApiClient };
