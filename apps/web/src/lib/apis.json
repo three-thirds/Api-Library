@@ -291,6 +291,33 @@
     ]
   },
   {
+    "id": "ladder",
+    "name": "Ladder",
+    "category": "Finance",
+    "route": "/api/v1/ladder",
+    "method": "POST",
+    "description": "POST a date, amount, and weighted buys. Same growth math as regret, but you pick the mix. Weights must add to 1. Cash left alone is always in the result. GET /api/v1/ladder lists the assets.",
+    "auth": false,
+    "params": [
+      { "name": "date", "type": "string", "required": true, "example": "2020-03-23", "description": "YYYY-MM-DD in the JSON body. A weekend walks forward." },
+      { "name": "amount", "type": "number", "required": true, "example": "100000", "description": "Cash you pretend you had." },
+      { "name": "currency", "type": "string", "required": false, "example": "INR", "description": "INR or USD. Defaults to INR." },
+      { "name": "buys", "type": "array", "required": true, "example": "[{\"id\":\"btc\",\"weight\":0.4},{\"id\":\"gold\",\"weight\":0.3},{\"id\":\"nifty\",\"weight\":0.3}]", "description": "JSON array of { id, weight }. 1 to 6. Weights sum to 1. ids: gold, btc, oil, nifty, reliance, sp500." }
+    ],
+    "response": {
+      "ok": true,
+      "date": "2020-03-23",
+      "amount": 100000,
+      "currency": "INR",
+      "winner": { "id": "btc", "multiple": 16.61 },
+      "verdict": "Bitcoin did 16.61x. The rupees under the mattress are still 100000."
+    },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "weights have to add up to 1" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "could not load the rupee rate" }
+    ]
+  },
+  {
     "id": "minecraft-status",
     "name": "Minecraft Status",
     "category": "Gaming",
