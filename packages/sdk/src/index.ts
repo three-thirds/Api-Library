@@ -9,33 +9,104 @@ export async function apiList() {
   return apis
 }
 
-export async function gold() {
-  const response = await fetch("https://api.threethirds.dev/api/v1/gold");
+export class ApiClient {
+  private baseUrl: string;
 
-  if(!response.ok) {
-    throw new Error(`Failed to fetch gold price: ${response.status} ${response.statusText}`);
+  private apis: any[] | null = null;
+
+  constructor(
+    baseUrl = "https://api.threethirds.dev/api/v1"
+  ) {
+    this.baseUrl = baseUrl;
   }
 
-  return response.json();
-}
-
-class ApiClient {
-    private baseUrl: string;
-
-    constructor(baseUrl = 'https://api.threethirds.dev/api/v1') {
-        this.baseUrl = baseUrl;
+  private async getApis() {
+    if (this.apis) {
+      return this.apis;
     }
 
-    private async get(path: string) {
-        const response = await fetch(`${this.baseUrl}${path}`);
-        if (!response.ok) {
-            throw new Error(`Failed to fetch ${path}: ${response.status} ${response.statusText}`);
+    const response = await fetch(`${this.baseUrl}/apis`);
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch API list: ${response.status} ${response.statusText}`
+      );
+    }
+
+    this.apis = await response.json();
+
+    return this.apis;
+  }
+
+  async get(
+    id: string,
+    params: Record<string, any> = {}
+  ) {
+    const apis = await this.getApis();
+
+    const api = apis.find(
+      (api: any) => api.id === id
+    );
+
+    if (!api) {
+      throw new Error(
+        `API with id "${id}" not found`
+      );
+    }
+
+    // Don't modify the user's original object
+    const requestParams = { ...params };
+
+    let route = api.route.replace(/^\/api\/v1/, "");
+
+    // Replace path parameters
+    route = route.replace(
+      /:([a-zA-Z0-9_-]+)/g,
+      (_: string, name: string) => {
+        const value = requestParams[name];
+
+        if (value === undefined) {
+          throw new Error(
+            `Missing parameter: ${name}`
+          );
         }
-        return response.json();
+
+        delete requestParams[name];
+
+        return encodeURIComponent(String(value));
+      }
+    );
+
+    const url = new URL(
+      `${this.baseUrl}${route}`
+    );
+
+    const method = api.method.toUpperCase();
+
+    let body: string | undefined;
+
+    if (method === "GET") {
+      for (const [key, value] of Object.entries(requestParams)) {
+        url.searchParams.set(key, String(value));
+      }
+    } else {
+      body = JSON.stringify(requestParams);
     }
 
-    gold = () => this.get('/gold');
-    apiList = () => this.get('/apis');
-}
+    const response = await fetch(url, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body,
+    });
 
-export { ApiClient };
+    if (!response.ok) {
+      throw new Error(
+        `Failed to call API "${id}": ${response.status} ${response.statusText}`
+      );
+    }
+
+    return response.json();
+  }
+}
