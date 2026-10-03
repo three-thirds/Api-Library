@@ -1,12 +1,11 @@
-const response = await fetch("https://api.threethirds.dev/api/v1/apis");
-
-const apis = await response.json();
-
 export function test() {
   return `If you are reading this, the package is working as intended.`;
 }
 
-export function apiList() {
+export async function apiList() {
+  const response = await fetch("https://api.threethirds.dev/api/v1/apis");
+
+  const apis = await response.json();
   return apis
 }
 
