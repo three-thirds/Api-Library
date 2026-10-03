@@ -1,3 +1,5 @@
-import { gold } from "../packages/sdk/src/index.ts";
+import { ApiClient } from "../packages/sdk/src/index.ts";
 
-console.log(await gold());
+const client = new ApiClient();
+
+console.log(await client.gold());

@@ -11,3 +11,23 @@ export async function gold() {
 
   return response.json();
 }
+
+class ApiClient {
+    private baseUrl: string;
+
+    constructor(baseUrl = 'https://api.threethirds.dev/api/v1') {
+        this.baseUrl = baseUrl;
+    }
+
+    private async get(path: string) {
+        const response = await fetch(`${this.baseUrl}${path}`);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch ${path}: ${response.status} ${response.statusText}`);
+        }
+        return response.json();
+    }
+
+    gold = () => this.get('/gold');
+}
+
+export { ApiClient };

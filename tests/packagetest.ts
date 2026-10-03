@@ -1,3 +1,3 @@
-import { gold } from "../packages/sdk/src/index.ts";
+import { gold } from "@threethirds/sdk";
 
 console.log(await gold());
