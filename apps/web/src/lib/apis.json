@@ -472,5 +472,19 @@
       { "code": "NOT_FOUND", "status": 404, "message": "Crate not found on crates.io" },
       { "code": "BAD_GATEWAY", "status": 502, "message": "Crates.io returned HTTP error" }
     ]
-  }  
+  },
+  {
+    "id": "apis",
+    "name": "List of Apis",
+    "category": "Public Internal",
+    "route": "/api/v1/apis",
+    "method": "GET",
+    "description": "List of Public Apis",
+    "auth": false,
+    "params": [],
+    "response": { "ok": true, "data": { "city": "Sydney", "tempC": 21.4 } },
+    "errors": [
+      {"code": "INTERNAL_SERVER_ERROR", "status": 500, "message": "Internal server error" }
+    ]
+  }
 ]
