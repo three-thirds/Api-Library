@@ -8,7 +8,7 @@ if (!response.ok) {
 
 const apis = await response.json();
 
-console.log(`Found ${apis.length} APIS:`);
+console.log(`${apis.length} APIS`);
 
 for (const api of apis) {
     console.log(` ${api.id}:${api.method} ${api.route}`);
