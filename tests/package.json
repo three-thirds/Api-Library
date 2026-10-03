@@ -11,6 +11,6 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@threethirds/sdk": "^0.2.0"
+    "@threethirds/sdk": "^0.2.1"
   }
 }
