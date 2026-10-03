@@ -1,15 +1,16 @@
 {
   "name": "tests",
   "module": "index.ts",
-  "type": "module",
-  "private": true,
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
+  "private": true,
+  "type": "module",
   "dependencies": {
-    "@threethirds/sdk": "../packages/sdk"
-  }
+    "@threethirds/sdk": "^0.1.0"
+  },
+  "version": "0.0.1"
 }
