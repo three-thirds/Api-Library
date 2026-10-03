@@ -1,3 +1,5 @@
-import { gold } from "@threethirds/sdk";
+import { ApiClient } from "@threethirds/sdk";
 
-console.log(await gold());
+const client = new ApiClient();
+
+console.log(await client.get("gold"));
