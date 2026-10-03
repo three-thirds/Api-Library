@@ -318,6 +318,33 @@
     ]
   },
   {
+    "id": "invoice",
+    "name": "Invoice",
+    "category": "Finance",
+    "route": "/api/v1/invoice",
+    "method": "POST",
+    "description": "POST a messy bill of aliases, tickers, and cash lines. Marks assets to today's spot, totals in INR or USD, and says what most of the invoice is. GET /api/v1/invoice lists the aliases.",
+    "auth": false,
+    "params": [
+      { "name": "currency", "type": "string", "required": false, "example": "INR", "description": "INR or USD for the total. Defaults to INR. Sent in the JSON body." },
+      { "name": "lines", "type": "array", "required": true, "example": "[{\"id\":\"gold\",\"amount\":1},{\"id\":\"AAPL\",\"amount\":2},{\"label\":\"snacks\",\"cash\":500}]", "description": "JSON array. Use { id, amount } for aliases/tickers, or { label, cash } for plain money. 1 to 20." }
+    ],
+    "response": {
+      "ok": true,
+      "currency": "INR",
+      "total": 420500.12,
+      "lines": [
+        { "id": "gold", "name": "Gold", "symbol": "GC=F", "amount": 1, "price": 4286.9, "quoteCurrency": "USD", "value": 410000, "weight": 0.97 }
+      ],
+      "skipped": [],
+      "verdict": "Most of this invoice is gold."
+    },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "lines cannot be empty" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "none of those lines had a price" }
+    ]
+  },
+  {
     "id": "minecraft-status",
     "name": "Minecraft Status",
     "category": "Gaming",
