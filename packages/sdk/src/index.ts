@@ -20,7 +20,7 @@ export class ApiClient {
     this.baseUrl = baseUrl;
   }
 
-  private async getApis() {
+  private async getApis(): Promise<any[]> {
     if (this.apis) {
       return this.apis;
     }
@@ -33,9 +33,11 @@ export class ApiClient {
       );
     }
 
-    this.apis = await response.json();
+    const apis = await response.json();
 
-    return this.apis;
+    this.apis = apis;
+
+    return apis;
   }
 
   async get(
