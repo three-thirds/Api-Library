@@ -6,7 +6,7 @@
       "name": "@threethirds/sdk",
       "devDependencies": {
         "tsup": "^8.5.1",
-        "typescript": "^5.0.0",
+        "typescript": "5",
       },
     },
   },
