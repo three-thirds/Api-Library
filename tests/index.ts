@@ -1,3 +1,3 @@
-import { hello } from "@threethirds/sdk";
+import { test } from "../packages/sdk/src/index.ts";
 
-console.log(hello("William"));
+console.log(test());
