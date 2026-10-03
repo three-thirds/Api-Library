@@ -1,5 +1,13 @@
+const response = await fetch("https://api.threethirds.dev/api/v1/apis");
+
+const apis = await response.json();
+
 export function test() {
   return `If you are reading this, the package is working as intended.`;
+}
+
+export function apiList() {
+  return apis
 }
 
 export async function gold() {
@@ -28,6 +36,7 @@ class ApiClient {
     }
 
     gold = () => this.get('/gold');
+    apiList = () => this.get('/apiList');
 }
 
 export { ApiClient };
