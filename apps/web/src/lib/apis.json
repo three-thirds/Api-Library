@@ -469,6 +469,29 @@
       { "code": "NOT_FOUND", "status": 404, "message": "Invalid version format" },
       { "code": "BAD_GATEWAY", "status": 502, "message": "Failed to fetch Linux kernel data" }
     ]
+  },
+  {
+    "id": "xkcd",
+    "name": "XKCD Comics",
+    "category": "Entertainment",
+    "route": "/xkcd/:id",
+    "method": "GET",
+    "description": "Browse and randomise XKCD comics, with some metadata like title, alt and stuff. Also try /xkcd/random and /xkcd/latest",
+    "auth": false,
+    "params": [
+      { "name": "id", "type": "string", "required": false, "example": "327", "description": "Comic ID(like 327) could also be 'latest' or 'random'  " }
+    ],
+"response": {
+      "id": 327,
+      "title": "Exploits of a Mom",
+      "image_url": "https://imgs.xkcd.com/comics/exploits_of_a_mom.png",
+      "alt_text": "Her daughter is named Help I'm trapped in a driver's license factory.",
+      "published_date": "2007-10-10"
+    },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "Invalid comic ID" },
+      { "code": "NOT_FOUND", "status": 404, "message": "Comic does not exist" }
+    ]
   }
 
 ]

@@ -24,6 +24,7 @@ import keys from './routes/keys';
 import authenticated from './routes/authenticated';
 import kernel from './routes/kernel'
 import apilist from './routes/apis';
+import xkcd from './routes/xkcd';
 
 const api = new Hono();
 
@@ -52,5 +53,6 @@ api.route('/keys', keys);
 api.route('/authenticated', authenticated);
 api.route('/kernel', kernel);
 api.route('/apis', apilist);
+api.route('/xkcd', xkcd);
 
 export default api;
