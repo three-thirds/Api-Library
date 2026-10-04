@@ -16,12 +16,14 @@
 ### Features
 
 - Get request from one url
+- Simple Npm Library
 
 ### WIP Features
 
-- authenticated requests
-- Post requests
+- ~~authenticated requests~~
+- ~~Post requests~~
 - finish ui lmao(TRY ENDPOINT BUTTON IS THERE BUT DOES NOT WORK!!)
+- get npm library more stable
 
 #### Techstack
 
