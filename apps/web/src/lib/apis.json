@@ -425,5 +425,23 @@
       {"code": "UPSTREAM_ERROR", "status": 502, "message": "Hackclub AI Error" },
       {"code": "INTERNAL_SERVER_ERROR", "status": 500, "message": "Internal server error" }
     ]
+  },
+  {
+    "id": "airlines",
+    "name": "Airline Search",
+    "category": "Planes",
+    "route": "/api/v1/airlines/:airline",
+    "method": "GET",
+    "description": "Search for any airline by name",
+    "auth": true,
+    "params": [
+      { "name": "airline", "type": "string", "required": true, "example": "Qantas", "description": "Name of airline you are searching" }
+    ],
+    "response": { "ok": true, "data": { "city": "Sydney", "tempC": 21.4 } },
+    "errors": [
+      {"code": "MISSING_UPSTREAM_CREDENTIAL", "status": 400, "message": "Aviationstack upstream credential is missing" },
+      {"code": "UPSTREAM_ERROR", "status": 502, "message": "Aviationstack returned a error" },
+      {"code": "INTERNAL_SERVER_ERROR", "status": 500, "message": "Internal server error" }
+    ]
   }
 ]

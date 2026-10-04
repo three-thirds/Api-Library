@@ -22,6 +22,7 @@ import keys from './routes/keys';
 import authenticated from './routes/authenticated';
 import apilist from './routes/apis';
 import hcai from './routes/hcai';
+import airline from './routes/airline';
 
 const api = new Hono();
 
@@ -48,5 +49,6 @@ api.route('/keys', keys);
 api.route('/authenticated', authenticated);
 api.route('/apis', apilist);
 api.route('/hcai', hcai);
+api.route('/airlines', airline);
 
 export default api;
