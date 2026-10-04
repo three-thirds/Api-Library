@@ -345,6 +345,35 @@
     ]
   },
   {
+    "id": "short",
+    "name": "URL Shortener",
+    "category": "Tools",
+    "route": "/api/v1/short",
+    "method": "POST",
+    "description": "POST a long http(s) url to get a short code stored in Cloudflare KV. Optional custom code and ttlDays. GET /api/v1/short/:code returns JSON. GET /api/v1/short/:code/go redirects. Same url twice returns the existing code.",
+    "auth": false,
+    "params": [
+      { "name": "url", "type": "string", "required": true, "example": "https://example.com/some/long/path", "description": "http or https url in the JSON body." },
+      { "name": "code", "type": "string", "required": false, "example": "lunch", "description": "Optional custom slug, 3-32 chars. Letters, numbers, _ or -." },
+      { "name": "ttlDays", "type": "number", "required": false, "example": "30", "description": "Optional expiry in days, 1 to 365." }
+    ],
+    "response": {
+      "ok": true,
+      "code": "lunch",
+      "url": "https://example.com/some/long/path",
+      "shortPath": "/api/v1/short/lunch/go",
+      "infoPath": "/api/v1/short/lunch",
+      "createdAt": "2026-10-04T04:00:00.000Z",
+      "expiresAt": null,
+      "existing": false
+    },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "url has to be http or https" },
+      { "code": "NOT_FOUND", "status": 404, "message": "unknown code" },
+      { "code": "CONFLICT", "status": 409, "message": "code is already taken" }
+    ]
+  },
+  {
     "id": "minecraft-status",
     "name": "Minecraft Status",
     "category": "Gaming",
