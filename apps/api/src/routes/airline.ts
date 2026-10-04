@@ -19,7 +19,6 @@ app.get('/airlines/:airline', async (c) => {
     const airline = c.req.param('airline');
 
     try {
-        const body = await c.req.json();
         const res = await fetch(
             "https://api.aviationstack.com/v1/airlines?access_key=" + encodeURIComponent(apiKey) + "&search=" + encodeURIComponent(airline),
             {
