@@ -101,7 +101,10 @@ export class ApiClient {
     }
 
     const headers: Record<string, string> = {
-      "Content-Type": "application/json",
+    }
+
+    if (method !== "GET") {
+      headers["Content-Type"] = "application/json";
     }
 
     if (api.auth) {
