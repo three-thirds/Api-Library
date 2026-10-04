@@ -101,9 +101,33 @@
       console.error("Failed to fetch secrets:", err);
     }
   }
+
+  async function deleteSecret(targetProvider: string) {
+    const activeKey = newlyGeneratedKey || masterKeyInput;
+    if (!activeKey) return;
+
+    try {
+      const res = await fetch(
+        `/api/v1/keys/secrets/${encodeURIComponent(targetProvider)}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${activeKey}` },
+        },
+      );
+
+      if (res.ok) {
+        secretMessage = `Removed '${targetProvider}' from vault`;
+        await fetchConfiguredSecrets(activeKey);
+      }
+    } catch (err) {
+      console.error("Failed to delete secret: ", err);
+    }
+  }
 </script>
 
-<div class="min-h-screen bg-background text-foreground p-6 md:p-12">
+<div
+  class="h-full w-full overflow-y-auto bg-background text-foreground p-6 md:p-12"
+>
   <div class="max-w-4xl mx-auto space-y-8">
     <!-- Header -->
     <div class="flex items-center justify-between border-b border-border pb-6">
@@ -213,7 +237,7 @@
               <Input
                 id="masterKeyInput"
                 type="password"
-                placeholder="ac_live_..."
+                placeholder="al_live_..."
                 bind:value={masterKeyInput}
                 class="h-9 text-xs font-mono"
               />
@@ -289,13 +313,24 @@
               <div
                 class="flex items-center justify-between p-3 bg-muted/20 text-xs"
               >
-                <span class="font-mono font-medium uppercase text-foreground"
-                  >{prov}</span
+                <div class="flex items-center gap-2">
+                  <span class="font-mono font-medium uppercase text-foreground"
+                    >{prov}</span
+                  >
+                  <code
+                    class="bg-muted px-2 py-0.5 rounded font-mono text-muted-foreground"
+                    >{masked}</code
+                  >
+                </div>
+
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  class="h-7 px-2 text-xs text-muted-foreground hover:text-destructive"
+                  onclick={() => deleteSecret(prov)}
                 >
-                <code
-                  class="bg-muted px-2 py-0.5 rounded font-mono text-muted-foreground"
-                  >{masked}</code
-                >
+                  Remove
+                </Button>
               </div>
             {/each}
           </div>
