@@ -72,5 +72,27 @@ app.get('/secrets', requiresApiKey, async (c) => {
   });
 });
 
+app.delete('/secrets/:prov', requiresApiKey, async (c) => {
+  const provider = c.req.param('prov').toLowerCase().trim();
+
+  const vault = c.get('vault');
+  const keyHash = c.get('keyHash');
+  const kv = (c.env as any)?.VAULT_KV;
+
+  if (!vault.secrets[provider]) {
+    return c.json({ error: `Provider ${provider} not found in vault` }, 404);
+  }
+
+  delete vault.secrets[provider];
+
+  await saveVault(kv, keyHash, vault);
+
+  return c.json({
+    message: `Successfully removed secret for provider: '${provider}'`,
+    provider,
+  });
+
+});
+
 
 export default app;

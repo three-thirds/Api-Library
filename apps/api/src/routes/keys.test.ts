@@ -89,4 +89,19 @@ describe('Testing key.ts', () => {
     expect(masked).not.toBe('live_weather_token_6769');
 
   });
+
+  it('DELETE /secrets/:provider removes secrets from vault', async () => {
+    const deleteRes = await keysApp.request('/secrets/openweather', {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${createdMasterKey}` }
+    });
+    expect(deleteRes.status).toBe(200);
+
+    const getRes = await keysApp.request('/secrets', {
+      headers: { Authorization: `Bearer ${createdMasterKey}` }
+    });
+
+    const json = await getRes.json();
+    expect(json.configured_secrets['openweather']).toBeUndefined();
+  });
 });
