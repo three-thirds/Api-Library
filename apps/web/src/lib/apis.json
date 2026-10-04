@@ -374,6 +374,34 @@
     ]
   },
   {
+    "id": "qr",
+    "name": "QR Generator",
+    "category": "Tools",
+    "route": "/api/v1/qr",
+    "method": "GET",
+    "description": "Stick text or a URL in, get a QR code back as SVG or PNG. Optional size, ecc, margin, and colors. Default is image/svg+xml; format=png returns image/png; format=json wraps the svg and a data URI. Nothing stored.",
+    "auth": false,
+    "params": [
+      { "name": "text", "type": "string", "required": true, "example": "https://threethirds.dev", "description": "String to encode. Trimmed. Max 1024 characters." },
+      { "name": "size", "type": "number", "required": false, "example": "256", "description": "Output width and height in px, 64 to 1024. Default 256." },
+      { "name": "ecc", "type": "string", "required": false, "example": "M", "description": "Error correction: L, M, Q, or H. Default M." },
+      { "name": "format", "type": "string", "required": false, "example": "png", "description": "svg (default), png, or json." }
+    ],
+    "response": {
+      "ok": true,
+      "text": "https://threethirds.dev",
+      "size": 256,
+      "ecc": "M",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"256\" height=\"256\" viewBox=\"0 0 256 256\">...</svg>",
+      "dataUri": "data:image/svg+xml;base64,..."
+    },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "text is required" },
+      { "code": "BAD_REQUEST", "status": 400, "message": "size has to be an integer from 64 to 1024" },
+      { "code": "BAD_REQUEST", "status": 400, "message": "ecc has to be L, M, Q, or H" }
+    ]
+  },
+  {
     "id": "minecraft-status",
     "name": "Minecraft Status",
     "category": "Gaming",
