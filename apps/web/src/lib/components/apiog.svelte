@@ -16,7 +16,7 @@
 		Threethirds API
 	</div>
 
-	<article id={api.id} class="rounded-lg border border-[#ffffff1a] p-4 flex flex-col gap-4">
+	<article id={api.id} class="rounded-lg border-2 border-[#ffffff1a] p-4 flex flex-col gap-4">
 		<div class="flex items-start justify-between gap-4">
 			<div class="flex flex-col gap-2">
 				<div class="flex items-center gap-2">
@@ -24,7 +24,7 @@
 						{api.name}
 					</h2>
 					{#if api.auth}
-						<span class="rounded-full border border-[#ffffff1a] px-2 py-0.5 text-xs text-[#9f9fa9]">
+						<span class="rounded-full border border-[#ffffff1a] px-2 py-0.5 text-base text-[#9f9fa9]">
 							Api Required
 						</span>
 					{/if}
@@ -34,14 +34,14 @@
 					View Docs
 				</div>           
 			</div>
-			<code class="shrink-0 rounded-md bg-[#27272a] px-2 py-1 text-xs font-medium flex items-center gap-1.5">
+			<code class="shrink-0 rounded-md bg-[#27272a] px-2 py-1 text-base font-medium flex items-center gap-1.5">
 				<span class="font-semibold" style={`color: ${methodColor}`}>{api.method}</span>
 				{api.route}
 			</code>
 		</div>
 	</article>
 
-	<footer class="right-0 bottom-0 left-0 flex items-center justify-between gap-2 border-t bg-background/50 p-2">
+	<footer class="absolute bottom-5 left-8 flex items-center justify-between gap-2 border-t bg-background/50 p-2">
 		<p class="text-xs text-muted-foreground">
 			Made with ❤️ by Three Thirds
 		</p>
