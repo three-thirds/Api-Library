@@ -428,7 +428,7 @@
   },
   {
     "id": "airlines",
-    "name": "Airline Search",
+    "name": "Search Airlines",
     "category": "Planes",
     "route": "/api/v1/airlines/:airline",
     "method": "GET",
@@ -446,7 +446,7 @@
   },
   {
     "id": "flights",
-    "name": "Flight Search",
+    "name": "Search Flights",
     "category": "Planes",
     "route": "/api/v1/flights/:flightNumber",
     "method": "GET",
@@ -454,6 +454,24 @@
     "auth": true,
     "params": [
       { "name": "flightNumber", "type": "string", "required": true, "example": "QF1", "description": "The IATA flight number to search for." }
+    ],
+    "response": { "ok": true, "data": { "city": "Sydney", "tempC": 21.4 } },
+    "errors": [
+      {"code": "MISSING_UPSTREAM_CREDENTIAL", "status": 400, "message": "Aviationstack upstream credential is missing" },
+      {"code": "UPSTREAM_ERROR", "status": 502, "message": "Aviationstack returned a error" },
+      {"code": "INTERNAL_SERVER_ERROR", "status": 500, "message": "Internal server error" }
+    ]
+  },
+  {
+    "id": "airports",
+    "name": "Search Airports",
+    "category": "Planes",
+    "route": "/api/v1/airports/:airport",
+    "method": "GET",
+    "description": "Search for any airport by name, IATA code, or ICAO code",
+    "auth": true,
+    "params": [
+      { "name": "airport", "type": "string", "required": true, "example": "SYD", "description": "The IATA or ICAO code" }
     ],
     "response": { "ok": true, "data": { "city": "Sydney", "tempC": 21.4 } },
     "errors": [
