@@ -401,5 +401,29 @@
     "errors": [
       {"code": "INTERNAL_SERVER_ERROR", "status": 500, "message": "Internal server error" }
     ]
+  },
+  {
+    "id": "hcai",
+    "name": "Hackclub AI",
+    "category": "Tools",
+    "route": "/api/v1/hcai",
+    "method": "POST",
+    "description": "An AI service available to only Hack Club Members.",
+    "auth": true,
+    "params": [
+      { "name": "model", "type": "string", "required": true, "example": "anthropic/claude-fable-5.1", "description": "THe model of AI you want to use" },
+      { "name": "messages", "type": "array", "required": true, "example":"{\"role\": \"user\", \"content\": \"Hello!\"}", "description": "The message you want to send to the AI" },
+      {"name": "temperature", "type": "number", "required": false, "example":"3", "description": "controsl randomness in model's response"},
+      {"name": "max_tokens", "type": "number", "required": false, "example":"", "description": "Max number of tokens to generate"},
+      {"name": "stream", "type": "boolean", "required": false, "example":"true", "description": "Wheather to stream the response."},
+      {"name": "", "type": "", "required": false, "example":"", "description": ""}
+    ],
+    "response": { "ok": true, "data": { "city": "Sydney", "tempC": 21.4 } },
+    "errors": [
+      {"code": "BAD_REQUEST", "status": 400, "message": "Invalid request body" },
+      {"code": "MISSING_UPSTREAM_CREDENTIAL", "status": 400, "message": "Hack Club AI upstream credential is missing" },
+      {"code": "UPSTREAM_ERROR", "status": 502, "message": "Hackclub AI Error" },
+      {"code": "INTERNAL_SERVER_ERROR", "status": 500, "message": "Internal server error" }
+    ]
   }
 ]

@@ -21,6 +21,7 @@ import crates from './routes/crates';
 import keys from './routes/keys';
 import authenticated from './routes/authenticated';
 import apilist from './routes/apis';
+import hcai from './routes/hcai';
 
 const api = new Hono();
 
@@ -46,5 +47,6 @@ api.route('/crates', crates);
 api.route('/keys', keys);
 api.route('/authenticated', authenticated);
 api.route('/apis', apilist);
+api.route('/hcai', hcai);
 
 export default api;
