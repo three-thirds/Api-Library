@@ -4,7 +4,7 @@
       import Tryapi from '$lib/components/tryapi.svelte';
     let { data }: PageProps = $props();
     const api = $derived(data.api);
-    const pageUrl = $derived(`https://api-library.vercel.app/docs/${api.id}`);
+    const pageUrl = $derived(`https://api.threethirds.dev/docs/${api.id}`);
 
     const methods: Record<string, string> = {
         GET: 'text-green-500',
