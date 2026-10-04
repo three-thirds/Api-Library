@@ -233,6 +233,147 @@
     ]
   },
   {
+    "id": "portfolio",
+    "name": "Portfolio",
+    "category": "Finance",
+    "route": "/api/v1/portfolio",
+    "method": "POST",
+    "description": "POST a list of holdings and get them marked to today's spot in INR or USD. Aliases cover gold, silver, platinum, copper, oil, gas, btc, eth, and the usual indices. Anything else is a stock ticker. GET /api/v1/portfolio lists the aliases. Gold/silver/platinum amounts are troy ounces; copper is pounds.",
+    "auth": false,
+    "params": [
+      { "name": "currency", "type": "string", "required": false, "example": "INR", "description": "INR or USD for the total and for cash. Defaults to INR. Sent in the JSON body." },
+      { "name": "holdings", "type": "array", "required": true, "example": "[{\"id\":\"gold\",\"amount\":2},{\"id\":\"btc\",\"amount\":0.1},{\"id\":\"AAPL\",\"amount\":10},{\"id\":\"cash\",\"amount\":50000}]", "description": "JSON array of { id, amount }. 1 to 20 rows. Duplicate ids merge." }
+    ],
+    "response": {
+      "ok": true,
+      "currency": "INR",
+      "total": 1854321.5,
+      "holdings": [
+        { "id": "gold", "name": "Gold", "symbol": "GC=F", "amount": 2, "price": 4286.9, "quoteCurrency": "USD", "value": 820000.12, "weight": 0.44 }
+      ],
+      "skipped": [],
+      "winner": { "id": "gold", "weight": 0.44 },
+      "loser": { "id": "cash", "weight": 0.03 },
+      "verdict": "Gold is 44% of the pile. Cash is the quiet leftover."
+    },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "holdings cannot be empty" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "none of those holdings had a price" }
+    ]
+  },
+  {
+    "id": "split",
+    "name": "Split",
+    "category": "Finance",
+    "route": "/api/v1/split",
+    "method": "POST",
+    "description": "POST a bill total and a list of people with shares. Each person gets what they owe in the request currency plus INR and USD via today's rupee rate. share is a fraction or the string equal. GET /api/v1/split shows the body shape.",
+    "auth": false,
+    "params": [
+      { "name": "total", "type": "number", "required": true, "example": "3000", "description": "Bill total in the request currency. Sent in the JSON body." },
+      { "name": "currency", "type": "string", "required": false, "example": "INR", "description": "INR or USD. Defaults to INR." },
+      { "name": "people", "type": "array", "required": true, "example": "[{\"name\":\"a\",\"share\":0.5},{\"name\":\"b\",\"share\":0.3},{\"name\":\"c\",\"share\":\"equal\"}]", "description": "JSON array of { name, share }. 1 to 20. share is 0-1 or equal." }
+    ],
+    "response": {
+      "ok": true,
+      "total": 3000,
+      "currency": "INR",
+      "usdInr": 95.82,
+      "people": [
+        { "name": "a", "share": 0.5, "owes": 1500, "owesInr": 1500, "owesUsd": 15.65 }
+      ],
+      "winner": { "name": "a", "owes": 1500 },
+      "verdict": "a pays the most (1500 rupees)."
+    },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "people cannot be empty" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "could not load the rupee rate" }
+    ]
+  },
+  {
+    "id": "ladder",
+    "name": "Ladder",
+    "category": "Finance",
+    "route": "/api/v1/ladder",
+    "method": "POST",
+    "description": "POST a date, amount, and weighted buys. Same growth math as regret, but you pick the mix. Weights must add to 1. Cash left alone is always in the result. GET /api/v1/ladder lists the assets.",
+    "auth": false,
+    "params": [
+      { "name": "date", "type": "string", "required": true, "example": "2020-03-23", "description": "YYYY-MM-DD in the JSON body. A weekend walks forward." },
+      { "name": "amount", "type": "number", "required": true, "example": "100000", "description": "Cash you pretend you had." },
+      { "name": "currency", "type": "string", "required": false, "example": "INR", "description": "INR or USD. Defaults to INR." },
+      { "name": "buys", "type": "array", "required": true, "example": "[{\"id\":\"btc\",\"weight\":0.4},{\"id\":\"gold\",\"weight\":0.3},{\"id\":\"nifty\",\"weight\":0.3}]", "description": "JSON array of { id, weight }. 1 to 6. Weights sum to 1. ids: gold, btc, oil, nifty, reliance, sp500." }
+    ],
+    "response": {
+      "ok": true,
+      "date": "2020-03-23",
+      "amount": 100000,
+      "currency": "INR",
+      "winner": { "id": "btc", "multiple": 16.61 },
+      "verdict": "Bitcoin did 16.61x. The rupees under the mattress are still 100000."
+    },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "weights have to add up to 1" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "could not load the rupee rate" }
+    ]
+  },
+  {
+    "id": "invoice",
+    "name": "Invoice",
+    "category": "Finance",
+    "route": "/api/v1/invoice",
+    "method": "POST",
+    "description": "POST a messy bill of aliases, tickers, and cash lines. Marks assets to today's spot, totals in INR or USD, and says what most of the invoice is. GET /api/v1/invoice lists the aliases.",
+    "auth": false,
+    "params": [
+      { "name": "currency", "type": "string", "required": false, "example": "INR", "description": "INR or USD for the total. Defaults to INR. Sent in the JSON body." },
+      { "name": "lines", "type": "array", "required": true, "example": "[{\"id\":\"gold\",\"amount\":1},{\"id\":\"AAPL\",\"amount\":2},{\"label\":\"snacks\",\"cash\":500}]", "description": "JSON array. Use { id, amount } for aliases/tickers, or { label, cash } for plain money. 1 to 20." }
+    ],
+    "response": {
+      "ok": true,
+      "currency": "INR",
+      "total": 420500.12,
+      "lines": [
+        { "id": "gold", "name": "Gold", "symbol": "GC=F", "amount": 1, "price": 4286.9, "quoteCurrency": "USD", "value": 410000, "weight": 0.97 }
+      ],
+      "skipped": [],
+      "verdict": "Most of this invoice is gold."
+    },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "lines cannot be empty" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "none of those lines had a price" }
+    ]
+  },
+  {
+    "id": "short",
+    "name": "URL Shortener",
+    "category": "Tools",
+    "route": "/api/v1/short",
+    "method": "POST",
+    "description": "POST a long http(s) url to get a short code stored in Cloudflare KV. Optional custom code and ttlDays. GET /api/v1/short/:code returns JSON. GET /api/v1/short/:code/go redirects. Same url twice returns the existing code.",
+    "auth": false,
+    "params": [
+      { "name": "url", "type": "string", "required": true, "example": "https://example.com/some/long/path", "description": "http or https url in the JSON body." },
+      { "name": "code", "type": "string", "required": false, "example": "lunch", "description": "Optional custom slug, 3-32 chars. Letters, numbers, _ or -." },
+      { "name": "ttlDays", "type": "number", "required": false, "example": "30", "description": "Optional expiry in days, 1 to 365." }
+    ],
+    "response": {
+      "ok": true,
+      "code": "lunch",
+      "url": "https://example.com/some/long/path",
+      "shortPath": "/api/v1/short/lunch/go",
+      "infoPath": "/api/v1/short/lunch",
+      "createdAt": "2026-10-04T04:00:00.000Z",
+      "expiresAt": null,
+      "existing": false
+    },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "url has to be http or https" },
+      { "code": "NOT_FOUND", "status": 404, "message": "unknown code" },
+      { "code": "CONFLICT", "status": 409, "message": "code is already taken" }
+    ]
+  },
+  {
     "id": "minecraft-status",
     "name": "Minecraft Status",
     "category": "Gaming",

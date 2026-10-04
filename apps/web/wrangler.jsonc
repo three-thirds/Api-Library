@@ -22,8 +22,10 @@
 		{
 			"binding": "threethirds_db",
 			"database_name": "threethirds-db",
-			"database_id": "d6a38df3-fb81-423a-88bd-f06d0c01a290",
-			"remote": true
+			"database_id": "d6a38df3-fb81-423a-88bd-f06d0c01a290"
 		}
-	]
+	],
+	"vars": {
+    	"BETTER_AUTH_URL": "https://api.threethirds.dev"
+	},
 }

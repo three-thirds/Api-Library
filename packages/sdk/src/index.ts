@@ -10,14 +10,19 @@ export async function apiList() {
 }
 
 export class ApiClient {
+  private apiKey?: string;
   private baseUrl: string;
 
   private apis: any[] | null = null;
 
   constructor(
-    baseUrl = "https://api.threethirds.dev/api/v1"
+    options: {
+      apiKey?: string;
+      baseUrl?: string;
+    } = {}
   ) {
-    this.baseUrl = baseUrl;
+    this.baseUrl = options.baseUrl ?? "https://api.threethirds.dev/api/v1";
+    this.apiKey = options.apiKey
   }
 
   private async getApis(): Promise<any[]> {
@@ -95,11 +100,23 @@ export class ApiClient {
       body = JSON.stringify(requestParams);
     }
 
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    }
+
+    if (api.auth) {
+      if (!this.apiKey) {
+        throw new Error(
+          `API "${id}" requires authentication, but no API key was provided`
+        );
+      }
+
+      headers["Authorization"] = `Bearer ${this.apiKey}`;
+    }
+
     const response = await fetch(url, {
       method,
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers,
       body,
     });
 

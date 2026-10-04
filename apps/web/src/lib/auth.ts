@@ -14,7 +14,7 @@ export const createAuth = (env: Env) =>
       provider: "sqlite",
       schema,
     }),
-    secret: env.BETTER_AUTH_SECRET,
-    baseURL: env.BETTER_AUTH_URL,
+    secret: env.BETTER_AUTH_SECRET || 'dev_secret_key_676767_sahurr',
+    baseURL: env.BETTER_AUTH_URL || "https://localhost:5173/",
     emailAndPassword: { enabled: true },
   });
