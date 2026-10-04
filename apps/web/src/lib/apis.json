@@ -558,7 +558,91 @@
     ]
   },
   {
-    "id": "apis",
+    "id": "linux-kernel",
+    "name": "Linux Kernel Info",
+    "category": "Developer Tools",
+    "route": "/kernel/check/:version",
+    "method": "GET",
+    "description": "Fetches info like total downloads, repository, docs.rs links and stuff from crates.io",
+    "auth": false,
+    "params": [
+      { "name": "version", "type": "string", "required": true, "example": "6.12.5", "description": "Kernel version to audit" }
+    ],
+    "response": {
+      "queried_version": "6.12.5",
+      "branch": "6.12",
+      "status": "Active (Latest Stable/Mainline)",
+      "is_eol": false,
+      "latest_patch_on_branch": "6.12.5",
+      "recommendation": "You are on the latest cutting-edge kernel."
+    },
+    "errors": [
+      { "code": "NOT_FOUND", "status": 404, "message": "Invalid version format" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "Failed to fetch Linux kernel data" }
+    ]
+  },
+  {
+    "id": "xkcd",
+    "name": "XKCD Comics",
+    "category": "Entertainment",
+    "route": "/xkcd/:id",
+    "method": "GET",
+    "description": "Browse and randomise XKCD comics, with some metadata like title, alt and stuff. Also try /xkcd/random and /xkcd/latest",
+    "auth": false,
+    "params": [
+      { "name": "id", "type": "string", "required": false, "example": "327", "description": "Comic ID(like 327) could also be 'latest' or 'random'  " }
+    ],
+"response": {
+      "id": 327,
+      "title": "Exploits of a Mom",
+      "image_url": "https://imgs.xkcd.com/comics/exploits_of_a_mom.png",
+      "alt_text": "Her daughter is named Help I'm trapped in a driver's license factory.",
+      "published_date": "2007-10-10"
+    },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "Invalid comic ID" },
+      { "code": "NOT_FOUND", "status": 404, "message": "Comic does not exist" }
+    ]
+  },
+    {
+   "id": "ip-diagnostics",
+    "name": "Network & IP Diagnostics",
+    "category": "Developer Tools",
+    "route": "/ip",
+    "method": "GET",
+    "description": "Inspect your IP address, geolocation headers and some other metadata, use /ip/raw for plaintext output",
+    "auth": false,
+    "params": [],
+    "response": {
+      "ip": "203.0.113.195",
+      "country": "IN",
+      "user_agent": "curl/8.6.0",
+      "edge_ray_id": "87c4f1a2e3b5d6",
+      "timestamp": "2026-10-04T12:00:00.000Z"
+    },
+    "errors": []
+  },
+  {
+    "id": "text-metrics",
+    "name": "Text & Reading Time Analyzer",
+    "category": "Utilities",
+    "route": "/text/analyze",
+    "method": "POST",
+    "description": "Calculates word counts, character counts, sentences, estimated reading time (200 WPM), and speaking time (130 WPM).",
+    "auth": false,
+    "params": [
+      { "name": "text", "type": "string", "required": true, "example": "Systems engineering is the art of understanding constraints.", "description": "Raw text or markdown content to analyze" }
+    ],
+    "response": {
+      "metrics": { "words": 8, "characters": 61, "characters_no_spaces": 54, "sentences": 1, "paragraphs": 1 },
+      "reading_time": { "minutes": 0.04, "formatted": "2s" },
+      "speaking_time": { "minutes": 0.06, "formatted": "4s" }
+    },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "Request body must include a non-empty text string" }
+    ]
+  },
+{    "id": "apis",
     "name": "List of Apis",
     "category": "Public Internal",
     "route": "/api/v1/apis",
@@ -668,3 +752,5 @@
     ]
   }
 ]
+
+
