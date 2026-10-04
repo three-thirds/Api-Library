@@ -25,6 +25,7 @@ import hcai from './routes/hcai';
 import airline from './routes/airline';
 import flights from './routes/flights';
 import airport from './routes/airports';
+import aircraft from './routes/aircraft';
 
 const api = new Hono();
 
@@ -54,5 +55,6 @@ api.route('/hcai', hcai);
 api.route('/airlines', airline);
 api.route('/flights', flights);
 api.route('/airports', airport);
+api.route('/aircraft', aircraft);
 
 export default api;

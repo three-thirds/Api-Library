@@ -479,5 +479,23 @@
       {"code": "UPSTREAM_ERROR", "status": 502, "message": "Aviationstack returned a error" },
       {"code": "INTERNAL_SERVER_ERROR", "status": 500, "message": "Internal server error" }
     ]
+  },
+  {
+    "id": "aircraft",
+    "name": "Search Aircraft",
+    "category": "Planes",
+    "route": "/api/v1/aircraft/:aircraft",
+    "method": "GET",
+    "description": "Search for any aircraft by type, registration number, or ICAO code",
+    "auth": true,
+    "params": [
+      { "name": "airport", "type": "string", "required": true, "example": "SYD", "description": "The IATA or ICAO code" }
+    ],
+    "response": { "ok": true, "data": { "city": "Sydney", "tempC": 21.4 } },
+    "errors": [
+      {"code": "MISSING_UPSTREAM_CREDENTIAL", "status": 400, "message": "Aviationstack upstream credential is missing" },
+      {"code": "UPSTREAM_ERROR", "status": 502, "message": "Aviationstack returned a error" },
+      {"code": "INTERNAL_SERVER_ERROR", "status": 500, "message": "Internal server error" }
+    ]
   }
 ]
