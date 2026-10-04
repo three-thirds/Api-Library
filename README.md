@@ -1,11 +1,11 @@
 # Api Library
 
-## A collection of Apis
+## A collection of apis useable from one endpoint
 
 ![API](https://img.shields.io/badge/API-Hono-green)
 ![Web](https://img.shields.io/badge/Web-Sveltekit-red)
 
-## Local Insallation
+### Local Insallation
 
 1. `git clone https://github.com/three-thirds/Api-Library.git`
 2. `cd Api-Library`
@@ -47,3 +47,5 @@
 - npm js package
 - backend and storage
 - reliable uptime
+
+###### Made with ❤️ by [Chish](https://github.com/chishxd), [Dev](https://github.com/DevaanshPathak) & [Will](github.com/Willgob)
