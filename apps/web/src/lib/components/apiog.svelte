@@ -20,7 +20,7 @@
 		<div class="flex items-start justify-between gap-4">
 			<div class="flex flex-col gap-2">
 				<div class="flex items-center gap-2">
-					<h2 class="text-6xl font-semibold">
+					<h2 class="text-9xl font-semibold">
 						{api.name}
 					</h2>
 					{#if api.auth}
