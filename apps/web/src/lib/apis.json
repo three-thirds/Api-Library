@@ -492,6 +492,23 @@
       { "code": "BAD_REQUEST", "status": 400, "message": "Invalid comic ID" },
       { "code": "NOT_FOUND", "status": 404, "message": "Comic does not exist" }
     ]
+  },
+    {
+   "id": "ip-diagnostics",
+    "name": "Network & IP Diagnostics",
+    "category": "Developer Tools",
+    "route": "/ip",
+    "method": "GET",
+    "description": "Inspect your IP address, geolocation headers and some other metadata, use /ip/raw for plaintext output",
+    "auth": false,
+    "params": [],
+    "response": {
+      "ip": "203.0.113.195",
+      "country": "IN",
+      "user_agent": "curl/8.6.0",
+      "edge_ray_id": "87c4f1a2e3b5d6",
+      "timestamp": "2026-10-04T12:00:00.000Z"
+    },
+    "errors": []
   }
-
 ]
