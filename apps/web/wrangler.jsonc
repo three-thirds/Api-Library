@@ -11,6 +11,11 @@
 		{
 			"binding": "VAULT_KV",
 			"id": "63f43be5479948edb78be22b1281a2a2"
+		},
+		{
+			"binding": "LINKS",
+			"id": "023eac1338a4457db2b2a6b39a578eb4",
+			"remote": true
 		}
 	],
 	"d1_databases": [
