@@ -38,3 +38,12 @@
 #### Contributing
 
 [Contrib](/apps/web/src/lib/assets/contrib.md)
+
+##### What changed between last week and this weeks submition (for reviewer)
+
+- Added auth
+- much more apis
+- POST apis
+- npm js package
+- backend and storage
+- reliable uptime
