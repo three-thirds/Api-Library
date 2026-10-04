@@ -44,3 +44,5 @@ app.get('/aircraft/:aircraft', async(c) => {
         }, 500)
     }
 })
+
+export default app;
