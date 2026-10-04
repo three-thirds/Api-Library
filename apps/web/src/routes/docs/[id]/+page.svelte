@@ -1,10 +1,16 @@
 <script lang="ts">
-	import type { PageProps } from "./$types";
-	import ApiCard from "$lib/components/apicard.svelte";
+    import type { PageProps } from './$types';
+    	import ApiCard from "$lib/components/apicard.svelte";
+    import { Button } from "$lib/components/ui/button/index.js";
+      import Tryapi from '$lib/components/tryapi.svelte';
+    let { data }: PageProps = $props();
+    const api = $derived(data.api);
+    const pageUrl = $derived(`https://api.threethirds.dev/docs/${api.id}`);
 
-	let { data }: PageProps = $props();
-	const api = $derived(data.api);
-	const pageUrl = $derived(`https://api-library.vercel.app/docs/${api.id}`);
+    const methods: Record<string, string> = {
+        GET: 'text-green-500',
+        POST: 'text-blue-500',
+    };
 </script>
 
 <svelte:head>

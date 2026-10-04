@@ -291,6 +291,117 @@
     ]
   },
   {
+    "id": "ladder",
+    "name": "Ladder",
+    "category": "Finance",
+    "route": "/api/v1/ladder",
+    "method": "POST",
+    "description": "POST a date, amount, and weighted buys. Same growth math as regret, but you pick the mix. Weights must add to 1. Cash left alone is always in the result. GET /api/v1/ladder lists the assets.",
+    "auth": false,
+    "params": [
+      { "name": "date", "type": "string", "required": true, "example": "2020-03-23", "description": "YYYY-MM-DD in the JSON body. A weekend walks forward." },
+      { "name": "amount", "type": "number", "required": true, "example": "100000", "description": "Cash you pretend you had." },
+      { "name": "currency", "type": "string", "required": false, "example": "INR", "description": "INR or USD. Defaults to INR." },
+      { "name": "buys", "type": "array", "required": true, "example": "[{\"id\":\"btc\",\"weight\":0.4},{\"id\":\"gold\",\"weight\":0.3},{\"id\":\"nifty\",\"weight\":0.3}]", "description": "JSON array of { id, weight }. 1 to 6. Weights sum to 1. ids: gold, btc, oil, nifty, reliance, sp500." }
+    ],
+    "response": {
+      "ok": true,
+      "date": "2020-03-23",
+      "amount": 100000,
+      "currency": "INR",
+      "winner": { "id": "btc", "multiple": 16.61 },
+      "verdict": "Bitcoin did 16.61x. The rupees under the mattress are still 100000."
+    },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "weights have to add up to 1" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "could not load the rupee rate" }
+    ]
+  },
+  {
+    "id": "invoice",
+    "name": "Invoice",
+    "category": "Finance",
+    "route": "/api/v1/invoice",
+    "method": "POST",
+    "description": "POST a messy bill of aliases, tickers, and cash lines. Marks assets to today's spot, totals in INR or USD, and says what most of the invoice is. GET /api/v1/invoice lists the aliases.",
+    "auth": false,
+    "params": [
+      { "name": "currency", "type": "string", "required": false, "example": "INR", "description": "INR or USD for the total. Defaults to INR. Sent in the JSON body." },
+      { "name": "lines", "type": "array", "required": true, "example": "[{\"id\":\"gold\",\"amount\":1},{\"id\":\"AAPL\",\"amount\":2},{\"label\":\"snacks\",\"cash\":500}]", "description": "JSON array. Use { id, amount } for aliases/tickers, or { label, cash } for plain money. 1 to 20." }
+    ],
+    "response": {
+      "ok": true,
+      "currency": "INR",
+      "total": 420500.12,
+      "lines": [
+        { "id": "gold", "name": "Gold", "symbol": "GC=F", "amount": 1, "price": 4286.9, "quoteCurrency": "USD", "value": 410000, "weight": 0.97 }
+      ],
+      "skipped": [],
+      "verdict": "Most of this invoice is gold."
+    },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "lines cannot be empty" },
+      { "code": "BAD_GATEWAY", "status": 502, "message": "none of those lines had a price" }
+    ]
+  },
+  {
+    "id": "short",
+    "name": "URL Shortener",
+    "category": "Tools",
+    "route": "/api/v1/short",
+    "method": "POST",
+    "description": "POST a long http(s) url to get a short code stored in Cloudflare KV. Optional custom code and ttlDays. GET /api/v1/short/:code returns JSON. GET /api/v1/short/:code/go redirects. Same url twice returns the existing code.",
+    "auth": false,
+    "params": [
+      { "name": "url", "type": "string", "required": true, "example": "https://example.com/some/long/path", "description": "http or https url in the JSON body." },
+      { "name": "code", "type": "string", "required": false, "example": "lunch", "description": "Optional custom slug, 3-32 chars. Letters, numbers, _ or -." },
+      { "name": "ttlDays", "type": "number", "required": false, "example": "30", "description": "Optional expiry in days, 1 to 365." }
+    ],
+    "response": {
+      "ok": true,
+      "code": "lunch",
+      "url": "https://example.com/some/long/path",
+      "shortPath": "/api/v1/short/lunch/go",
+      "infoPath": "/api/v1/short/lunch",
+      "createdAt": "2026-10-04T04:00:00.000Z",
+      "expiresAt": null,
+      "existing": false
+    },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "url has to be http or https" },
+      { "code": "NOT_FOUND", "status": 404, "message": "unknown code" },
+      { "code": "CONFLICT", "status": 409, "message": "code is already taken" }
+    ]
+  },
+  {
+    "id": "qr",
+    "name": "QR Generator",
+    "category": "Tools",
+    "route": "/api/v1/qr",
+    "method": "GET",
+    "description": "Stick text or a URL in, get a QR code back as SVG or PNG. Optional size, ecc, margin, and colors. Default is image/svg+xml; format=png returns image/png; format=json wraps the svg and a data URI. Nothing stored.",
+    "auth": false,
+    "params": [
+      { "name": "text", "type": "string", "required": true, "example": "https://threethirds.dev", "description": "String to encode. Trimmed. Max 1024 characters." },
+      { "name": "size", "type": "number", "required": false, "example": "256", "description": "Output width and height in px, 64 to 1024. Default 256." },
+      { "name": "ecc", "type": "string", "required": false, "example": "M", "description": "Error correction: L, M, Q, or H. Default M." },
+      { "name": "format", "type": "string", "required": false, "example": "png", "description": "svg (default), png, or json." }
+    ],
+    "response": {
+      "ok": true,
+      "text": "https://threethirds.dev",
+      "size": 256,
+      "ecc": "M",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"256\" height=\"256\" viewBox=\"0 0 256 256\">...</svg>",
+      "dataUri": "data:image/svg+xml;base64,..."
+    },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "text is required" },
+      { "code": "BAD_REQUEST", "status": 400, "message": "size has to be an integer from 64 to 1024" },
+      { "code": "BAD_REQUEST", "status": 400, "message": "ecc has to be L, M, Q, or H" }
+    ]
+  },
+  {
     "id": "minecraft-status",
     "name": "Minecraft Status",
     "category": "Gaming",
@@ -530,5 +641,116 @@
     "errors": [
       { "code": "BAD_REQUEST", "status": 400, "message": "Request body must include a non-empty text string" }
     ]
+  },
+{    "id": "apis",
+    "name": "List of Apis",
+    "category": "Public Internal",
+    "route": "/api/v1/apis",
+    "method": "GET",
+    "description": "List of Public Apis",
+    "auth": false,
+    "params": [],
+    "response": { "ok": true, "data": { "city": "Sydney", "tempC": 21.4 } },
+    "errors": [
+      {"code": "INTERNAL_SERVER_ERROR", "status": 500, "message": "Internal server error" }
+    ]
+  },
+  {
+    "id": "hcai",
+    "name": "Hackclub AI",
+    "category": "Tools",
+    "route": "/api/v1/hcai",
+    "method": "POST",
+    "description": "An AI service available to only Hack Club Members.",
+    "auth": true,
+    "params": [
+      { "name": "model", "type": "string", "required": true, "example": "anthropic/claude-fable-5.1", "description": "THe model of AI you want to use" },
+      { "name": "messages", "type": "array", "required": true, "example":"{\"role\": \"user\", \"content\": \"Hello!\"}", "description": "The message you want to send to the AI" },
+      {"name": "temperature", "type": "number", "required": false, "example":"3", "description": "controsl randomness in model's response"},
+      {"name": "max_tokens", "type": "number", "required": false, "example":"", "description": "Max number of tokens to generate"},
+      {"name": "stream", "type": "boolean", "required": false, "example":"true", "description": "Wheather to stream the response."},
+      {"name": "", "type": "", "required": false, "example":"", "description": ""}
+    ],
+    "response": { "ok": true, "data": { "city": "Sydney", "tempC": 21.4 } },
+    "errors": [
+      {"code": "BAD_REQUEST", "status": 400, "message": "Invalid request body" },
+      {"code": "MISSING_UPSTREAM_CREDENTIAL", "status": 400, "message": "Hack Club AI upstream credential is missing" },
+      {"code": "UPSTREAM_ERROR", "status": 502, "message": "Hackclub AI Error" },
+      {"code": "INTERNAL_SERVER_ERROR", "status": 500, "message": "Internal server error" }
+    ]
+  },
+  {
+    "id": "airlines",
+    "name": "Search Airlines",
+    "category": "Planes",
+    "route": "/api/v1/airlines/:airline",
+    "method": "GET",
+    "description": "Search for any airline by name",
+    "auth": true,
+    "params": [
+      { "name": "airline", "type": "string", "required": true, "example": "Qantas", "description": "Name of airline you are searching" }
+    ],
+    "response": { "ok": true, "data": { "city": "Sydney", "tempC": 21.4 } },
+    "errors": [
+      {"code": "MISSING_UPSTREAM_CREDENTIAL", "status": 400, "message": "Aviationstack upstream credential is missing" },
+      {"code": "UPSTREAM_ERROR", "status": 502, "message": "Aviationstack returned a error" },
+      {"code": "INTERNAL_SERVER_ERROR", "status": 500, "message": "Internal server error" }
+    ]
+  },
+  {
+    "id": "flights",
+    "name": "Search Flights",
+    "category": "Planes",
+    "route": "/api/v1/flights/:flightNumber",
+    "method": "GET",
+    "description": "Search for any airline by name",
+    "auth": true,
+    "params": [
+      { "name": "flightNumber", "type": "string", "required": true, "example": "QF1", "description": "The IATA flight number to search for." }
+    ],
+    "response": { "ok": true, "data": { "city": "Sydney", "tempC": 21.4 } },
+    "errors": [
+      {"code": "MISSING_UPSTREAM_CREDENTIAL", "status": 400, "message": "Aviationstack upstream credential is missing" },
+      {"code": "UPSTREAM_ERROR", "status": 502, "message": "Aviationstack returned a error" },
+      {"code": "INTERNAL_SERVER_ERROR", "status": 500, "message": "Internal server error" }
+    ]
+  },
+  {
+    "id": "airports",
+    "name": "Search Airports",
+    "category": "Planes",
+    "route": "/api/v1/airports/:airport",
+    "method": "GET",
+    "description": "Search for any airport by name, IATA code, or ICAO code",
+    "auth": true,
+    "params": [
+      { "name": "airport", "type": "string", "required": true, "example": "SYD", "description": "The IATA or ICAO code" }
+    ],
+    "response": { "ok": true, "data": { "city": "Sydney", "tempC": 21.4 } },
+    "errors": [
+      {"code": "MISSING_UPSTREAM_CREDENTIAL", "status": 400, "message": "Aviationstack upstream credential is missing" },
+      {"code": "UPSTREAM_ERROR", "status": 502, "message": "Aviationstack returned a error" },
+      {"code": "INTERNAL_SERVER_ERROR", "status": 500, "message": "Internal server error" }
+    ]
+  },
+  {
+    "id": "aircraft",
+    "name": "Search Aircraft",
+    "category": "Planes",
+    "route": "/api/v1/aircraft/:aircraft",
+    "method": "GET",
+    "description": "Search for any aircraft by type, registration number, or ICAO code",
+    "auth": true,
+    "params": [
+      { "name": "airport", "type": "string", "required": true, "example": "SYD", "description": "The IATA or ICAO code" }
+    ],
+    "response": { "ok": true, "data": { "city": "Sydney", "tempC": 21.4 } },
+    "errors": [
+      {"code": "MISSING_UPSTREAM_CREDENTIAL", "status": 400, "message": "Aviationstack upstream credential is missing" },
+      {"code": "UPSTREAM_ERROR", "status": 502, "message": "Aviationstack returned a error" },
+      {"code": "INTERNAL_SERVER_ERROR", "status": 500, "message": "Internal server error" }
+    ]
   }
 ]
+
+

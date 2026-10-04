@@ -11,6 +11,11 @@
 		{
 			"binding": "VAULT_KV",
 			"id": "63f43be5479948edb78be22b1281a2a2"
+		},
+		{
+			"binding": "LINKS",
+			"id": "023eac1338a4457db2b2a6b39a578eb4",
+			"remote": true
 		}
 	],
 	"d1_databases": [
@@ -19,5 +24,8 @@
 			"database_name": "threethirds-db",
 			"database_id": "d6a38df3-fb81-423a-88bd-f06d0c01a290"
 		}
-	]
+	],
+	"vars": {
+    	"BETTER_AUTH_URL": "https://api.threethirds.dev"
+	},
 }

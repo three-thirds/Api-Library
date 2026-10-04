@@ -1,11 +1,11 @@
 # Api Library
 
-## A collection of Apis
+## A collection of apis useable from one endpoint
 
 ![API](https://img.shields.io/badge/API-Hono-green)
 ![Web](https://img.shields.io/badge/Web-Sveltekit-red)
 
-## Local Insallation
+### Local Insallation
 
 1. `git clone https://github.com/three-thirds/Api-Library.git`
 2. `cd Api-Library`
@@ -16,12 +16,14 @@
 ### Features
 
 - Get request from one url
+- Simple Npm Library
 
 ### WIP Features
 
-- authenticated requests
-- Post requests
+- ~~authenticated requests~~
+- ~~Post requests~~
 - finish ui lmao(TRY ENDPOINT BUTTON IS THERE BUT DOES NOT WORK!!)
+- get npm library more stable
 
 #### Techstack
 
@@ -36,3 +38,14 @@
 #### Contributing
 
 [Contrib](/apps/web/src/lib/assets/contrib.md)
+
+##### What changed between last week and this weeks submition (for reviewer)
+
+- Added auth
+- much more apis
+- POST apis
+- npm js package
+- backend and storage
+- reliable uptime
+
+###### Made with ❤️ by [Chish](https://github.com/chishxd), [Dev](https://github.com/DevaanshPathak) & [Will](github.com/Willgob)
