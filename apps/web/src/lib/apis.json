@@ -443,5 +443,23 @@
       {"code": "UPSTREAM_ERROR", "status": 502, "message": "Aviationstack returned a error" },
       {"code": "INTERNAL_SERVER_ERROR", "status": 500, "message": "Internal server error" }
     ]
+  },
+  {
+    "id": "flights",
+    "name": "Flight Search",
+    "category": "Planes",
+    "route": "/api/v1/flights/:flightNumber",
+    "method": "GET",
+    "description": "Search for any airline by name",
+    "auth": true,
+    "params": [
+      { "name": "flightNumber", "type": "string", "required": true, "example": "QF1", "description": "The IATA flight number to search for." }
+    ],
+    "response": { "ok": true, "data": { "city": "Sydney", "tempC": 21.4 } },
+    "errors": [
+      {"code": "MISSING_UPSTREAM_CREDENTIAL", "status": 400, "message": "Aviationstack upstream credential is missing" },
+      {"code": "UPSTREAM_ERROR", "status": 502, "message": "Aviationstack returned a error" },
+      {"code": "INTERNAL_SERVER_ERROR", "status": 500, "message": "Internal server error" }
+    ]
   }
 ]
