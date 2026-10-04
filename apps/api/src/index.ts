@@ -26,6 +26,7 @@ import kernel from './routes/kernel'
 import apilist from './routes/apis';
 import xkcd from './routes/xkcd';
 import ip from './routes/ip';
+import text from './routes/text';
 
 const api = new Hono();
 
@@ -56,5 +57,6 @@ api.route('/kernel', kernel);
 api.route('/apis', apilist);
 api.route('/xkcd', xkcd);
 api.route('/ip', ip);
+api.route('/text', text);
 
 export default api;

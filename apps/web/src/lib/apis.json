@@ -510,5 +510,25 @@
       "timestamp": "2026-10-04T12:00:00.000Z"
     },
     "errors": []
+  },
+  {
+    "id": "text-metrics",
+    "name": "Text & Reading Time Analyzer",
+    "category": "Utilities",
+    "route": "/text/analyze",
+    "method": "POST",
+    "description": "Calculates word counts, character counts, sentences, estimated reading time (200 WPM), and speaking time (130 WPM).",
+    "auth": false,
+    "params": [
+      { "name": "text", "type": "string", "required": true, "example": "Systems engineering is the art of understanding constraints.", "description": "Raw text or markdown content to analyze" }
+    ],
+    "response": {
+      "metrics": { "words": 8, "characters": 61, "characters_no_spaces": 54, "sentences": 1, "paragraphs": 1 },
+      "reading_time": { "minutes": 0.04, "formatted": "2s" },
+      "speaking_time": { "minutes": 0.06, "formatted": "4s" }
+    },
+    "errors": [
+      { "code": "BAD_REQUEST", "status": 400, "message": "Request body must include a non-empty text string" }
+    ]
   }
 ]
