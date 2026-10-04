@@ -3,7 +3,7 @@ import type { RequestHandler } from './$types';
 import apis from '$lib/apis.json';
  
 // This is optional, use it if you want to generate OG image at build time.
-export const prerender = true;
+// export const prerender = true;
  
 export function entries() {
     return apis.map((api) => ({ id: api.id }));

@@ -11,5 +11,5 @@
 </script>
 
 <div class="relative flex h-full w-full overflow-hidden bg-[#09090b] p-12 text-white">
-
+	<!-- <div class="absolu" -->
 </div>
