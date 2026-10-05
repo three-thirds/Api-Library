@@ -97,7 +97,7 @@
 						<pre class="mt-2.5 overflow-x-auto rounded-md bg-muted/60 p-3 text-xs font-mono text-foreground leading-relaxed"><code>{JSON.stringify(api.response, null, 2)}</code></pre>
 					</div>
 				{/if}
-				{#each api.errors as res (res.code)}
+				{#each api.errors as res, i (i)}
 					<div class="flex items-center gap-3 p-3">
 						<span class="rounded-md bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive">
 							{res.status}
