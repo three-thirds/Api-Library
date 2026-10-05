@@ -5,6 +5,8 @@
 ![API](https://img.shields.io/badge/API-Hono-green)
 ![Web](https://img.shields.io/badge/Web-Sveltekit-red)
 
+Js Package: https://npmjs.com/@threethirds/sdk
+
 ### Local Insallation
 
 1. `git clone https://github.com/three-thirds/Api-Library.git`
